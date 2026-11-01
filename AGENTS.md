@@ -78,8 +78,10 @@ Game logic decides which stage the plant is in. The view only displays it.
   stage visuals, placeholder view.
 - **Version 2 (done)** — watering, sunlight, real growth rules, quizzes,
   rewards, and progress saving.
-- **Version 3 (next)** — Antigravity restyles the garden with real artwork
-  and animations.
+- **Version 3 (done)** — Antigravity restyles the garden with real SVG
+  artwork and animations.
+- **Version 4 (done)** — final integration, bug fixing, accessibility
+  polish, testing, and documentation (OpenCode).
 
 ## Conventions
 

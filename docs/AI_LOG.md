@@ -236,3 +236,86 @@ are planned for Version 2 and Version 3.
 | Reduced motion support | ✅ Continuous animations disabled under `prefers-reduced-motion: reduce` |
 | Responsive layout (mobile & desktop) | ✅ 2x2 grid reflow on <=600px screens, 4-col layout on desktop |
 | Contract boundary preservation | ✅ Zero modifications to `types.ts`, `App.tsx`, `QuizPanel.tsx`, `storage.ts` |
+
+---
+
+## Version 4 — Final Integration, Bug Fixing, Testing & Documentation
+
+**Agent:** OpenCode (lead developer)
+**Goal:** Review the integrated v1–v3 application, fix any defects, run a full
+test suite, improve accessibility where safe, and produce the final
+documentation.
+
+### Review performed before any changes
+
+- Read `AGENTS.md` and `HANDOFF.md` to confirm architecture and file ownership.
+- Inspected every source file (`App.tsx`, `types.ts`, `GardenView.tsx`,
+  `QuizPanel.tsx`, `quizData.ts`, `storage.ts`, and all CSS).
+- Confirmed the logic/UI contract (`GardenViewProps`) is honored: `App.tsx`
+  passes props, `GardenView.tsx` reads only from props and calls callbacks.
+- Checked Git status/history: working tree clean, history
+  `v1 (2677eef) → v2 (39e2776) → v3 (257e88b)`, all tags present.
+
+### Bugs discovered
+
+A thorough review plus live testing found **no functional bugs** in the core
+gameplay, saving, restart, or UI logic. Two **accessibility (color-contrast)
+deficiencies** were identified via a Lighthouse audit and a custom
+contrast-ratio check:
+
+1. **Dimmed stage labels too faint** — future/pending growth-stage cards used
+   `opacity: 0.65` / `0.5`, dropping their text below the WCAG AA contrast
+   threshold (hard to read for young users).
+2. **Ghost-button text too light** — `.button--ghost` used green `#4caf50` on
+   white ≈ **2.78:1**, below the 4.5:1 AA requirement (affects "Back to
+   welcome", "Start a new seed", "Next question").
+
+### Changes made (all minimal and design-preserving)
+
+| File | Change | Reason |
+| ---- | ------ | ------ |
+| `src/garden.css` | Raised stage-card opacity `0.65 → 0.8` and `is-future` `0.5 → 0.7` | Keep stage names readable while still visibly "dimmer" than the current step |
+| `src/index.css` | Added `--color-leaf-dark: #2e7d32`; `.button--ghost` text now uses it | Meet WCAG AA contrast for ghost-button text |
+| `src/GardenView.tsx` | Added `aria-hidden="true"` to the decorative ✓ and ★ stage badges | Mark purely decorative glyphs (already duplicated by "Done"/"Here!" text) as non-informational |
+| `README.md` | Full rewrite with the 12 required sections | Final project documentation |
+| `docs/TESTING.md` | Created | Test-case table with expected vs. actual results |
+| `docs/AI_LOG.md` | Added this Version 4 section | Factual record of v4 work |
+
+No gameplay logic, contract (`types.ts`), quiz data, or storage code was
+changed. Antigravity's visual design was preserved.
+
+### Testing performed
+
+Full details are in [`TESTING.md`](./TESTING.md). Summary:
+
+- **`npm run build`** — ✅ passed (`tsc` 0 errors + Vite, 46 modules).
+- **12 functional test cases** run against the live app in a browser:
+  11 ✅ passed, 1 ⚠️ partial (mobile layout verified by CSS inspection, not at a
+  true mobile viewport because the browser tooling cannot resize the viewport),
+  0 ❌ failed.
+- Covered: launch, fresh seed, quiz reward, incorrect-answer retry,
+  duplicate-reward guard, watering consumption, both-care requirement, four
+  stage transitions, congratulations, save/restore on refresh, restart, and
+  responsive display.
+- **Console:** 0 errors, 0 warnings.
+- **Lighthouse:** Accessibility **90%**, Best Practices **100%**, SEO 80%.
+- Corrupted/invalid `localStorage` confirmed to fall back safely to a fresh
+  start (no crash).
+
+### AI contributions (Version 4)
+
+- **OpenCode** performed the code review, ran the build and the full browser
+  test suite, ran the Lighthouse audit, made the two conservative accessibility
+  fixes plus the `aria-hidden` tweak, and wrote `README.md`,
+  `docs/TESTING.md`, and this log entry.
+- **Google Antigravity** — no changes in Version 4; its Version 3 visual work
+  (`GardenView.tsx`, `garden.css`, SVG assets) was preserved as-is.
+
+### Remaining limitations
+
+- Primary buttons keep white-on-orange (≈2.35:1) — a deliberate brand color
+  kept to preserve the friendly design (documented as a known limitation).
+- No audio, single plant type, English-only, per-browser saves only.
+- Mobile layout not visually verified at a real device width (code inspection
+  only) — noted in `TESTING.md`.
+

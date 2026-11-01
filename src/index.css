@@ -10,6 +10,8 @@
   --color-grass: #a8e063;
   --color-sun: #ffd23f;
   --color-leaf: #4caf50;
+  /* Darker green used for text on light backgrounds so it meets WCAG AA. */
+  --color-leaf-dark: #2e7d32;
   --color-soil: #8d6e63;
   --color-text: #2f4f2f;
   --color-card: #ffffff;
@@ -93,7 +95,8 @@ body {
 
 .button--ghost {
   background: transparent;
-  color: var(--color-leaf);
+  /* Darker green text so it stays readable on light backgrounds (WCAG AA). */
+  color: var(--color-leaf-dark);
   border: 2px solid var(--color-leaf);
   margin-bottom: 1rem;
 }

@@ -747,7 +747,8 @@
   border-radius: var(--radius-lg);
   background: #f8fafc;
   border: 2.5px solid #e2e8f0;
-  opacity: 0.65;
+  /* Slightly raised from 0.65 so stage labels stay readable (accessibility). */
+  opacity: 0.8;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease, opacity 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -768,7 +769,9 @@
 }
 
 .garden__stage.is-future {
-  opacity: 0.5;
+  /* Raised from 0.5 so "coming next" labels stay legible (accessibility),
+     while still reading as dimmer than the current/done steps. */
+  opacity: 0.7;
 }
 
 .garden__stage-thumb-wrap {

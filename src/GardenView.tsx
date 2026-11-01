@@ -429,6 +429,7 @@ export default function GardenView({
                     <span
                       className="garden__stage-check-badge"
                       title="Completed"
+                      aria-hidden="true"
                     >
                       ✓
                     </span>
@@ -437,6 +438,7 @@ export default function GardenView({
                     <span
                       className="garden__stage-current-dot"
                       title="Current Stage"
+                      aria-hidden="true"
                     >
                       ★
                     </span>

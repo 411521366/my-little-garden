@@ -1,7 +1,7 @@
 {
   "name": "my-little-garden",
   "private": true,
-  "version": "1.0.0",
+  "version": "4.0.0",
   "description": "My Little Garden: Learn, Grow & Explore! - an educational garden game for children aged 6-10.",
   "type": "module",
   "scripts": {
