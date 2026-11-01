@@ -165,8 +165,74 @@ are planned for Version 2 and Version 3.
 
 ---
 
-## Planned: Version 3 (not yet started)
+## Version 3 — Colorful, Interactive User Interface
 
-Antigravity will take ownership of `GardenView.tsx` and `garden.css`, replace
-the placeholder emoji with real artwork and animations, and refine the overall
-visual design.
+**Agent:** Antigravity (Taroko — frontend UI/UX developer)
+**Goal:** Transform the educational garden game into an attractive, polished, kid-friendly experience (ages 6–10) with custom artwork, delightful animations, and high accessibility.
+
+### What Antigravity did
+
+1. **Created custom sunflower illustration assets (`src/assets/`)**
+   - Designed 4 original, child-friendly vector SVG illustrations for every growth stage:
+     - `src/assets/plant-seed.svg` — Seed nestled cozily in warm, textured soil with a tiny root hair emerging, resting striped shell, and sleeping expression.
+     - `src/assets/plant-sprout.svg` — Fresh lime-green shoot popping through the earth, two welcoming cotyledon leaves with a dewy drop, discarded seed coat, and branching root system.
+     - `src/assets/plant-budding.svg` — Tall leafy sunflower stalk with broad serrated leaves, leaf veins, deep root network, and a plump flower bud wrapped in green bracts with golden petals peeking out.
+     - `src/assets/plant-bloom.svg` — Radiant blooming sunflower with 32 layered golden petals, rich seed disc, heartwarming smiling kawaii face, and a friendly bumblebee companion.
+   - Designed 4 bespoke reward and action icons:
+     - `src/assets/watering-can.svg` — Cheerful pastel watering can with sunflower decal and pouring droplets.
+     - `src/assets/sun-badge.svg` — Smiling bright sun badge with rotating warm rays.
+     - `src/assets/water-drop.svg` — Glossy blue water droplet with highlights.
+     - `src/assets/star-badge.svg` — 3D beveled golden achievement star.
+   - Added TypeScript module declaration `src/assets/assets.d.ts` for clean asset bundling.
+
+2. **Revamped `src/GardenView.tsx`**
+   - Replaced placeholder emoji map with the high-resolution vector artwork.
+   - Added interactive animation state management for watering, sunlight, growth, and star bounce.
+   - Implemented large, tactile care buttons with distinct icons, completed checkmarks, and explanatory helper badges (`💧 Watered ✓`, `☀️ Sunny ✓`, `Need 💧 (Quiz)`).
+   - Added a dual-item requirements checklist (`Water: Done!`, `Sunlight: Done!`) so kids and screen readers never have to rely on color alone to know when the plant can grow.
+   - Enhanced the 4-stage visual progress road with illustrated stepping-stone thumbnails, progress checkmarks, and an active stage indicator with gold star badge.
+   - Styled the encouragement/achievement banner with icons and smooth slide-in.
+   - Preserved 100% of the `GardenViewProps` contract and OpenCode's game logic.
+
+3. **Restyled and animated `src/garden.css`**
+   - Introduced a pastel color palette: soft pastel green (`#d8f3dc`, `#74c69d`), sky blue (`#e0f2fe`, `#38bdf8`), warm sunny yellow (`#fef08a`), and cream (`#fffdf5`).
+   - Implemented rounded cards (20px–28px border-radius) and chunky tactile 3D buttons (`box-shadow: 0 5px 0`).
+   - Added friendly CSS keyframe animations:
+     - `gentleBreeze`: natural swaying movement for the plant.
+     - `canPour`, `dropFall`, `splashRipple`: watering can tilt, falling water stream, and soil splash effect.
+     - `sunFlare`, `sparkleRise`, `sunSpin`: rotating ambient sun and warm golden light particles.
+     - `plantGrowPop`: celebratory bouncy scale-up entrance when moving to a new stage.
+     - `celebrationBurst`: floating confetti stars on growth transitions.
+     - `starPop`: joyful bounce on the star counter badge.
+     - `floatCloud`: floating atmospheric clouds in the garden sky.
+   - Designed responsive layouts that adapt smoothly from small mobile screens (320px–480px) to laptops and desktops.
+
+4. **Accessibility enhancements**
+   - Added high-contrast visible focus indicators (`outline: 3.5px solid var(--pastel-orange); outline-offset: 3px`) for full keyboard navigation.
+   - Provided meaningful text labels, `aria-label`, `role="status"`, and `aria-live="polite"` announcements.
+   - Implemented clear disabled states that explain why a button is disabled rather than simply dimming it.
+   - Implemented `@media (prefers-reduced-motion: reduce)` to disable continuous swaying, particle effects, and bouncy loops for players with motion sensitivity.
+   - Followed WCAG 2.1 AA contrast guidelines across text and pastel backgrounds.
+
+5. **Validation and Git**
+   - Verified TypeScript compilation and production packaging with `npm run build` (`tsc && vite build`) — passed cleanly.
+   - Tested component states across all 4 growth stages, watering, sunlight, growth unlock, and reset.
+   - Documented changes in `docs/AI_LOG.md`.
+   - Committed changes with message `"v3: add colorful interactive garden UI"` and tagged `v3.0.0`.
+
+### Testing performed
+
+| Test | Result |
+| ---- | ------ |
+| `npm run build` (tsc + Vite) | ✅ Passed, 46 modules, 0 errors |
+| 4 Stage SVG illustrations load | ✅ `plant-seed`, `plant-sprout`, `plant-budding`, `plant-bloom` render crisply |
+| Reward badges display | ✅ 💧 Water drops and ⭐ Stars with icons and counts |
+| Watering interaction | ✅ Animated watering can, falling drops, splash ripple, and `💧 Watered ✓` state |
+| Sunlight interaction | ✅ Animated sun pulse, rising sparkles, and `☀️ Sunny ✓` state |
+| Growth transition & celebration | ✅ Bouncy `plantGrowPop`, floating confetti stars, and star counter bounce |
+| Growth checklist | ✅ Displays text + icon status for Water and Sunlight without relying on color alone |
+| 4-Stage visual stepping stones | ✅ Shows thumbnails, step numbers, and status badges (`Done`, `Here!`, `Step N`) |
+| Keyboard navigation & focus | ✅ Clear 3.5px orange focus rings on all buttons |
+| Reduced motion support | ✅ Continuous animations disabled under `prefers-reduced-motion: reduce` |
+| Responsive layout (mobile & desktop) | ✅ 2x2 grid reflow on <=600px screens, 4-col layout on desktop |
+| Contract boundary preservation | ✅ Zero modifications to `types.ts`, `App.tsx`, `QuizPanel.tsx`, `storage.ts` |

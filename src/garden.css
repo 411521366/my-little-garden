@@ -1,199 +1,893 @@
 /*
- * garden.css — Garden-specific styles.
+ * garden.css — Garden-specific styles and animations.
  *
- * Started by OpenCode for Version 1 and owned by Antigravity from Version 3,
- * when the placeholder visuals will be replaced with real artwork,
- * animations, and richer layout.
+ * Owned by Antigravity (Taroko) from Version 3.
+ * Designed for children ages 6-10: pastel colors, soft rounded cards,
+ * tactile chunky buttons, cheerful illustrations, and smooth animations.
  */
 
+/* ==========================================================================
+   CSS Variables & Color Palette
+   ========================================================================== */
+:root {
+  --pastel-sky: #e0f2fe;
+  --pastel-sky-deep: #bae6fd;
+  --pastel-green-light: #d8f3dc;
+  --pastel-green: #95d5b2;
+  --pastel-green-deep: #40916c;
+  --pastel-green-dark: #1b4332;
+  --pastel-yellow-light: #fffbeb;
+  --pastel-yellow: #fef08a;
+  --pastel-yellow-warm: #fde047;
+  --pastel-orange: #fb923c;
+  --pastel-pink: #fce7f3;
+  --pastel-pink-deep: #f472b6;
+  --pastel-cream: #fffdf5;
+  --card-shadow: 0 10px 25px -3px rgba(34, 76, 56, 0.08), 0 4px 10px -2px rgba(34, 76, 56, 0.04);
+  --button-shadow: 0 5px 0;
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+}
+
+/* ==========================================================================
+   Main Garden Layout
+   ========================================================================== */
 .garden {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
+  width: 100%;
 }
 
-/* Header row with the title and reward counters. */
+/* ==========================================================================
+   Header & Title Group
+   ========================================================================== */
 .garden__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.25rem;
   flex-wrap: wrap;
+  padding-bottom: 0.25rem;
+}
+
+.garden__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .garden__title {
-  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--pastel-green-dark);
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
+.garden__title-icon {
+  display: inline-block;
+  animation: gentleBreeze 3.5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.garden__subtitle {
+  font-size: 1.05rem;
+  color: #4a6b57;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Reward Counter Badges (Water Drops & Stars)
+   ========================================================================== */
 .garden__rewards {
   display: flex;
-  gap: 0.75rem;
-}
-
-.garden__reward {
-  font-weight: 700;
-  font-size: 1.1rem;
-  background: #fff8dc;
-  border: 2px solid var(--color-sun);
-  border-radius: 999px;
-  padding: 0.25rem 0.75rem;
-}
-
-/* The main plot showing the plant's current stage. */
-.garden__plot {
-  background: linear-gradient(180deg, #d8f0c0 0%, var(--color-grass) 100%);
-  border: 3px solid var(--color-leaf);
-  border-radius: 20px;
-  padding: 1.5rem;
-  text-align: center;
-}
-
-.garden__art {
-  font-size: 4.5rem;
-  display: inline-block;
-  line-height: 1;
-}
-
-.garden__stage-name {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin: 0.5rem 0 0.25rem;
-}
-
-.garden__stage-desc {
-  margin: 0;
-  font-size: 1rem;
-}
-
-/* Encouraging achievement message. */
-.garden__achievement {
-  margin: 0;
-  padding: 0.75rem 1rem;
-  background: #fff3d6;
-  border: 2px solid var(--color-sun);
-  border-radius: 12px;
-  font-weight: 700;
-  text-align: center;
-}
-
-/* Care action buttons (water + sunlight). */
-.garden__care {
-  display: flex;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 0.85rem;
   flex-wrap: wrap;
 }
 
-.garden__care-btn {
-  flex: 1;
-  min-width: 9rem;
-  background: #eef7ff;
-  color: var(--color-text);
-  border: 2px solid #bfe9ff;
-  box-shadow: none;
+.garden__reward-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--pastel-cream);
+  border: 2.5px solid #e2ebd8;
+  border-radius: 999px;
+  padding: 0.45rem 1rem 0.45rem 0.6rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.garden__care-btn:hover:not(:disabled) {
+.garden__reward-badge:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-.garden__care-btn.is-done {
-  background: #e4f8e4;
-  border-color: var(--color-leaf);
+.garden__reward-badge--water {
+  border-color: #bae6fd;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
 }
 
-.garden__care-btn:disabled {
-  opacity: 0.75;
-  cursor: default;
-  box-shadow: none;
+.garden__reward-badge--water.has-drops {
+  border-color: #38bdf8;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25);
 }
 
-/* Grow button. */
-.garden__grow {
-  width: 100%;
+.garden__reward-badge--star {
+  border-color: #fde047;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef08a 100%);
 }
 
-.garden__grow:disabled {
-  background: #d8d8d8;
-  box-shadow: none;
-  cursor: default;
-  transform: none;
+.garden__reward-badge--star.is-bouncing {
+  animation: starPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* The four-stage progress strip. */
-.garden__stages {
+.garden__reward-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+}
+
+.garden__reward-text {
   display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.garden__reward-count {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--pastel-green-dark);
+}
+
+.garden__reward-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #557b64;
+}
+
+/* ==========================================================================
+   Main Garden Plot: Scenery, Atmosphere & Artwork
+   ========================================================================== */
+.garden__plot {
+  position: relative;
+  background: linear-gradient(180deg, #dbeafe 0%, #e0f2fe 30%, #d8f3dc 70%, #b7e4c7 100%);
+  border: 3.5px solid #74c69d;
+  border-radius: var(--radius-xl);
+  padding: 2rem 1.5rem 1.5rem;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: var(--card-shadow), inset 0 2px 8px rgba(255, 255, 255, 0.6);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+.garden__plot.is-sunny {
+  background: linear-gradient(180deg, #fef9c3 0%, #fef08a 25%, #e0f2fe 55%, #d8f3dc 100%);
+  border-color: #facc15;
+  box-shadow: var(--card-shadow), 0 0 25px rgba(250, 204, 21, 0.35);
+}
+
+.garden__plot.is-watered {
+  border-color: #38bdf8;
+}
+
+.garden__plot.is-sunny.is-watered {
+  border-color: #52b788;
+  box-shadow: var(--card-shadow), 0 0 25px rgba(56, 189, 248, 0.25), 0 0 35px rgba(250, 204, 21, 0.25);
+}
+
+/* Atmospheric Sky Decor */
+.garden__sky-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.garden__sun-ambient {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 90px;
+  height: 90px;
+}
+
+.garden__ambient-sun-img {
+  width: 100%;
+  height: 100%;
+  opacity: 0.55;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  animation: sunSpin 24s linear infinite;
+  transform-origin: center center;
+}
+
+.garden__ambient-sun-img.is-active {
+  opacity: 0.95;
+  filter: drop-shadow(0 0 16px rgba(251, 191, 36, 0.7));
+  animation: sunSpin 14s linear infinite;
+}
+
+/* Gentle cartoon clouds */
+.garden__cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.03));
+}
+
+.garden__cloud::before,
+.garden__cloud::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.garden__cloud--1 {
+  width: 75px;
+  height: 24px;
+  top: 25px;
+  left: 20px;
+  animation: floatCloud 18s ease-in-out infinite alternate;
+}
+
+.garden__cloud--1::before {
+  width: 32px;
+  height: 32px;
+  top: -14px;
+  left: 14px;
+}
+
+.garden__cloud--1::after {
+  width: 24px;
+  height: 24px;
+  top: -10px;
+  left: 36px;
+}
+
+.garden__cloud--2 {
+  width: 55px;
+  height: 18px;
+  top: 55px;
+  right: 85px;
+  opacity: 0.6;
+  animation: floatCloud 24s ease-in-out infinite alternate-reverse;
+}
+
+.garden__cloud--2::before {
+  width: 24px;
+  height: 24px;
+  top: -10px;
+  left: 10px;
+}
+
+/* ==========================================================================
+   Plant Artwork Container & Dynamic Animations
+   ========================================================================== */
+.garden__plant-stage-frame {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  min-height: 240px;
+  max-width: 310px;
+}
+
+.garden__plant-art {
+  width: 100%;
+  max-width: 270px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 8px 18px rgba(45, 106, 79, 0.16));
+  animation: gentleBreeze 4.5s ease-in-out infinite;
+  transform-origin: bottom center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.garden__plant-art.is-growing {
+  animation: plantGrowPop 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ==========================================================================
+   Interactive Animation Overlays
+   ========================================================================== */
+.garden__anim-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Watering Animation */
+.garden__anim-overlay--water {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.garden__anim-can {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  width: 100px;
+  height: 100px;
+  animation: canPour 1.4s ease-in-out forwards;
+  filter: drop-shadow(0 8px 16px rgba(0, 119, 182, 0.35));
+}
+
+.garden__water-stream {
+  position: absolute;
+  top: 85px;
+  right: 95px;
+  width: 30px;
+  height: 90px;
+}
+
+.garden__drop-particle {
+  position: absolute;
+  width: 8px;
+  height: 14px;
+  background: #00b4d8;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0;
+  animation: dropFall 0.7s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+}
+
+.garden__drop-particle.d1 { left: 5px; animation-delay: 0.1s; }
+.garden__drop-particle.d2 { left: 16px; animation-delay: 0.25s; }
+.garden__drop-particle.d3 { left: 10px; animation-delay: 0.4s; }
+.garden__drop-particle.d4 { left: 22px; animation-delay: 0.55s; }
+
+.garden__water-splash {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 24px;
+  border: 3px solid #38bdf8;
+  border-radius: 50%;
+  opacity: 0;
+  animation: splashRipple 1.2s ease-out infinite;
+}
+
+/* Sunlight Flare Pulse Animation */
+.garden__anim-overlay--sun {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.garden__sun-pulse {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(254, 240, 138, 0.7) 0%, rgba(250, 204, 21, 0.4) 40%, rgba(250, 204, 21, 0) 75%);
+  animation: sunFlare 1.4s ease-out forwards;
+}
+
+.garden__sparkle {
+  position: absolute;
+  font-size: 1.8rem;
+  animation: sparkleRise 1.3s ease-out forwards;
+}
+
+.garden__sparkle.s1 { top: 35%; left: 30%; animation-delay: 0.1s; }
+.garden__sparkle.s2 { top: 25%; right: 35%; animation-delay: 0.25s; }
+.garden__sparkle.s3 { top: 45%; right: 25%; animation-delay: 0.4s; }
+
+/* Growth Celebration Confetti Stars */
+.garden__growth-star {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0;
+  animation: celebrationBurst 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.garden__growth-star.gs1 { top: 20%; left: 20%; animation-delay: 0.05s; }
+.garden__growth-star.gs2 { top: 15%; right: 25%; animation-delay: 0.15s; }
+.garden__growth-star.gs3 { top: 35%; left: 45%; animation-delay: 0.25s; font-size: 2.4rem; }
+.garden__growth-star.gs4 { top: 45%; left: 15%; animation-delay: 0.2s; }
+.garden__growth-star.gs5 { top: 50%; right: 18%; animation-delay: 0.3s; }
+
+/* ==========================================================================
+   Stage Name & Kid-Friendly Description Banner
+   ========================================================================== */
+.garden__stage-badge-container {
+  position: relative;
+  z-index: 3;
+  margin-top: 0.75rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border: 2px solid #b7e4c7;
+  border-radius: var(--radius-lg);
+  padding: 0.85rem 1.25rem;
+  box-shadow: 0 4px 12px rgba(34, 76, 56, 0.06);
+}
+
+.garden__stage-pill {
+  display: inline-block;
+  font-size: 1.15rem;
+  color: var(--pastel-green-dark);
+  background: var(--pastel-green-light);
+  border: 1.5px solid #74c69d;
+  border-radius: 999px;
+  padding: 0.25rem 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.garden__stage-desc {
+  font-size: 1.05rem;
+  color: #264633;
+  margin: 0;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Encouraging Achievement Message Banner
+   ========================================================================== */
+.garden__achievement {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0.95rem 1.35rem;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 2.5px solid #facc15;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 6px 16px rgba(250, 204, 21, 0.2);
+  animation: slideDownIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.garden__achievement-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.garden__achievement-text {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #78350f;
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* ==========================================================================
+   Section Headings
+   ========================================================================== */
+.garden__section-heading {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--pastel-green-dark);
+  margin: 0 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ==========================================================================
+   Care Action Station: Large Tactile Water & Sunlight Buttons
+   ========================================================================== */
+.garden__care-station {
+  display: flex;
+  flex-direction: column;
+}
+
+.garden__care-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.garden__care-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  border: 3px solid transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+  user-select: none;
+}
+
+.garden__care-card:focus-visible {
+  outline: 3.5px solid var(--pastel-orange);
+  outline-offset: 3px;
+}
+
+/* Water Care Button */
+.garden__care-card--water {
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-color: #7dd3fc;
+  box-shadow: 0 5px 0 #38bdf8, 0 8px 16px rgba(56, 189, 248, 0.2);
+}
+
+.garden__care-card--water:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 0 #38bdf8, 0 12px 20px rgba(56, 189, 248, 0.25);
+  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+}
+
+.garden__care-card--water:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #38bdf8;
+}
+
+/* Sunlight Care Button */
+.garden__care-card--sun {
+  background: linear-gradient(180deg, #fffbeb 0%, #fef9c3 100%);
+  border-color: #fde047;
+  box-shadow: 0 5px 0 #facc15, 0 8px 16px rgba(250, 204, 21, 0.2);
+}
+
+.garden__care-card--sun:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 0 #facc15, 0 12px 20px rgba(250, 204, 21, 0.25);
+  background: linear-gradient(180deg, #fef9c3 0%, #fef08a 100%);
+}
+
+.garden__care-card--sun:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #facc15;
+}
+
+/* Done / Completed Care States */
+.garden__care-card.is-done {
+  background: #ecfdf5;
+  border-color: #34d399;
+  box-shadow: 0 4px 0 #059669;
+  opacity: 0.95;
+  cursor: default;
+}
+
+.garden__care-card:disabled {
+  cursor: not-allowed;
+}
+
+.garden__care-card.is-done:disabled {
+  cursor: default;
+}
+
+.garden__care-card--water:disabled:not(.is-done) {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 0 #94a3b8;
+  opacity: 0.75;
+}
+
+.garden__care-icon-wrap {
+  width: 3.2rem;
+  height: 3.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 0.4rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.garden__care-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.garden__care-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.garden__care-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--pastel-green-dark);
+}
+
+.garden__care-badge {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #334155;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.garden__care-card.is-done .garden__care-badge {
+  color: #065f46;
+  background: #d1fae5;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   Grow Action Station & Visual Checklist
+   ========================================================================== */
+.garden__grow-station {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.garden__grow-btn {
+  width: 100%;
+  padding: 1.1rem 1.6rem;
+  font-family: inherit;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: #94a3b8;
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 6px 0 #64748b;
+  cursor: not-allowed;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.3s ease;
+  letter-spacing: -0.01em;
+}
+
+.garden__grow-btn:focus-visible {
+  outline: 4px solid var(--pastel-orange);
+  outline-offset: 3px;
+}
+
+/* Unlocked & Ready to Grow */
+.garden__grow-btn.is-ready {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 6px 0 #047857, 0 10px 24px rgba(16, 185, 129, 0.35);
+  cursor: pointer;
+  animation: growPulse 2.2s infinite;
+}
+
+.garden__grow-btn.is-ready:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 0 #047857, 0 14px 28px rgba(16, 185, 129, 0.45);
+}
+
+.garden__grow-btn.is-ready:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #047857;
+}
+
+/* Fully Grown Completion Style */
+.garden__grow-btn.is-completed {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 6px 0 #b45309, 0 10px 24px rgba(245, 158, 11, 0.35);
+  cursor: default;
+}
+
+/* Requirements Checklist (Accessible - does not rely on color alone) */
+.garden__requirements {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: var(--radius-lg);
+  padding: 0.65rem 1.25rem;
+  flex-wrap: wrap;
+}
+
+.garden__req-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.garden__req-item.is-met {
+  color: #065f46;
+  font-weight: 700;
+}
+
+.garden__req-status {
+  font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   4-Stage Visual Progress Road / Stepping Stones
+   ========================================================================== */
+.garden__progress-strip {
+  margin-top: 0.5rem;
+}
+
+.garden__stages {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
   list-style: none;
   margin: 0;
   padding: 0;
-  justify-content: center;
-  flex-wrap: wrap;
 }
 
 .garden__stage {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
-  min-width: 5.5rem;
-  padding: 0.75rem 0.5rem;
-  border-radius: 16px;
-  background: #f1f7ec;
-  border: 2px solid transparent;
-  opacity: 0.6;
-  transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  text-align: center;
+  gap: 0.4rem;
+  padding: 0.85rem 0.5rem;
+  border-radius: var(--radius-lg);
+  background: #f8fafc;
+  border: 2.5px solid #e2e8f0;
+  opacity: 0.65;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease, opacity 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Current Step Highlight */
 .garden__stage.is-current {
   opacity: 1;
-  border-color: var(--color-sun);
-  background: #fff8dc;
-  transform: scale(1.05);
+  border-color: #facc15;
+  background: linear-gradient(180deg, #fffbeb 0%, #fef9c3 100%);
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 8px 20px rgba(250, 204, 21, 0.28);
 }
 
-.garden__stage-art {
-  font-size: 2rem;
-  line-height: 1;
+/* Completed Step */
+.garden__stage.is-done {
+  opacity: 0.95;
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.garden__stage.is-future {
+  opacity: 0.5;
+}
+
+.garden__stage-thumb-wrap {
+  position: relative;
+  width: 3.4rem;
+  height: 3.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.garden__stage-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+}
+
+.garden__stage-check-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.garden__stage-current-dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: #eab308;
+  color: #ffffff;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: starPop 1.8s infinite;
 }
 
 .garden__stage-label {
-  font-weight: 700;
   font-size: 0.95rem;
-  text-align: center;
+  font-weight: 800;
+  color: var(--pastel-green-dark);
+  line-height: 1.2;
 }
 
-.garden__stage-number {
-  font-size: 0.75rem;
-  opacity: 0.6;
+.garden__stage-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #475569;
 }
 
-/* Restart button. */
+.garden__stage.is-current .garden__stage-tag {
+  background: #fde047;
+  color: #854d0e;
+  font-weight: 800;
+}
+
+.garden__stage.is-done .garden__stage-tag {
+  background: #bbf7d0;
+  color: #166534;
+}
+
+/* ==========================================================================
+   Footer & Restart
+   ========================================================================== */
+.garden__footer-actions {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
 .garden__restart {
-  align-self: center;
+  font-size: 1rem;
+  color: #4b7b62;
+  border-color: #8cb8a1;
+  padding: 0.6rem 1.4rem;
 }
 
-/* Small note marking this as a placeholder. */
-.garden__note {
-  font-size: 0.85rem;
-  opacity: 0.7;
-  text-align: center;
-  margin: 0;
+.garden__restart:hover {
+  background: rgba(82, 183, 136, 0.12);
+  border-color: #52b788;
+  color: #2d6a4f;
 }
 
-/* --- Educational "what plants need" section --- */
+/* ==========================================================================
+   Educational "What plants need" card
+   ========================================================================== */
 .learn {
-  margin-top: 1.5rem;
-  padding: 1.25rem;
-  background: #f3fff4;
-  border: 2px solid var(--color-grass);
-  border-radius: 20px;
+  margin-top: 1.75rem;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 3px solid #86efac;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--card-shadow);
   text-align: left;
 }
 
 .learn__title {
-  margin: 0 0 0.75rem;
-  font-size: 1.3rem;
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--pastel-green-dark);
 }
 
 .learn__list {
@@ -202,24 +896,264 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .learn__item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
+  gap: 0.75rem;
+  font-size: 1.05rem;
+  background: #ffffff;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid #dcfce7;
 }
 
 .learn__emoji {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+  line-height: 1;
 }
 
 .learn__note {
-  margin: 1rem 0 0;
-  padding-top: 0.75rem;
-  border-top: 1px dashed var(--color-grass);
+  margin: 1.25rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 2px dashed #bbf7d0;
   font-size: 0.95rem;
+  color: #2d6a4f;
   font-style: italic;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   CSS Keyframe Animations
+   ========================================================================== */
+@keyframes gentleBreeze {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  30% {
+    transform: rotate(1.8deg) scale(1.008);
+  }
+  70% {
+    transform: rotate(-1.5deg) scale(0.996);
+  }
+}
+
+@keyframes plantGrowPop {
+  0% {
+    transform: scale(0.65) translateY(20px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.15) translateY(-8px);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(0.95) translateY(2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes sunSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes floatCloud {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(35px);
+  }
+}
+
+@keyframes starPop {
+  0%, 100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.28) rotate(8deg);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes canPour {
+  0% {
+    opacity: 0;
+    transform: translate(20px, -20px) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-32deg);
+  }
+  75% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-32deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(20px, -20px) rotate(0deg);
+  }
+}
+
+@keyframes dropFall {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scaleY(1);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(80px) scaleY(1.4);
+  }
+}
+
+@keyframes splashRipple {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.4);
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.5);
+  }
+}
+
+@keyframes sunFlare {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  40% {
+    opacity: 0.9;
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+@keyframes sparkleRise {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.5);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-15px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-35px) scale(0.8);
+  }
+}
+
+@keyframes celebrationBurst {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(20px);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1.4) translateY(-15px) rotate(15deg);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.1) translateY(-25px) rotate(-10deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-40px);
+  }
+}
+
+@keyframes growPulse {
+  0%, 100% {
+    box-shadow: 0 6px 0 #047857, 0 10px 24px rgba(16, 185, 129, 0.35);
+  }
+  50% {
+    box-shadow: 0 6px 0 #047857, 0 12px 32px rgba(16, 185, 129, 0.6);
+  }
+}
+
+@keyframes slideDownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 600px) {
+  .garden__title {
+    font-size: 1.6rem;
+  }
+
+  .garden__plot {
+    padding: 1.5rem 1rem 1.25rem;
+  }
+
+  .garden__plant-stage-frame {
+    min-height: 200px;
+    max-width: 230px;
+  }
+
+  .garden__stages {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .garden__care-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .garden__requirements {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* ==========================================================================
+   Accessibility: Reduced-Motion Support
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .garden__title-icon,
+  .garden__ambient-sun-img,
+  .garden__cloud,
+  .garden__plant-art,
+  .garden__stage-current-dot,
+  .garden__grow-btn.is-ready {
+    animation: none !important;
+  }
+
+  .garden__anim-overlay {
+    display: none !important;
+  }
+
+  .garden__stage,
+  .garden__reward-badge,
+  .garden__care-card {
+    transition: none !important;
+  }
 }

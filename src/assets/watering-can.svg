@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="100%" height="100%" aria-label="Watering can pouring sparkling water">
+  <defs>
+    <linearGradient id="canBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#48cae4" />
+      <stop offset="60%" stop-color="#0096c7" />
+      <stop offset="100%" stop-color="#023e8a" />
+    </linearGradient>
+    <linearGradient id="waterFlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#90e0ef" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#00b4d8" stop-opacity="0.7" />
+    </linearGradient>
+  </defs>
+
+  <!-- Watering Can Main Body -->
+  <g transform="translate(10, 10)">
+    <!-- Top & Back Handle -->
+    <path d="M 68 35 C 68 12 108 12 112 45 C 114 62 105 80 92 88" 
+          stroke="#0077b6" stroke-width="9" fill="none" stroke-linecap="round" />
+    <path d="M 68 35 C 68 12 108 12 112 45 C 114 62 105 80 92 88" 
+          stroke="#48cae4" stroke-width="5" fill="none" stroke-linecap="round" />
+
+    <!-- Spout (pointing down and left) -->
+    <path d="M 45 75 L 12 45 L 6 54 L 38 88 Z" fill="#0096c7" />
+    <!-- Rose (Sprinkler head at spout end) -->
+    <ellipse cx="8" cy="48" rx="8" ry="14" fill="#023e8a" transform="rotate(-35 8 48)" />
+    <ellipse cx="7" cy="47" rx="6" ry="12" fill="#48cae4" transform="rotate(-35 7 47)" />
+    <!-- Sprinkler holes -->
+    <circle cx="5" cy="42" r="1.2" fill="#023e8a" />
+    <circle cx="8" cy="45" r="1.2" fill="#023e8a" />
+    <circle cx="5" cy="49" r="1.2" fill="#023e8a" />
+    <circle cx="9" cy="52" r="1.2" fill="#023e8a" />
+
+    <!-- Belly of the Can -->
+    <rect x="40" y="48" width="56" height="52" rx="18" fill="url(#canBody)" />
+
+    <!-- Cute sunflower sticker on watering can -->
+    <circle cx="68" cy="74" r="8" fill="#ffd166" />
+    <circle cx="68" cy="74" r="4.5" fill="#6d4c41" />
+    <circle cx="68" cy="62" r="3.5" fill="#fbc02d" />
+    <circle cx="68" cy="86" r="3.5" fill="#fbc02d" />
+    <circle cx="56" cy="74" r="3.5" fill="#fbc02d" />
+    <circle cx="80" cy="74" r="3.5" fill="#fbc02d" />
+
+    <!-- Water droplets pouring out -->
+    <g fill="#00b4d8">
+      <ellipse cx="-4" cy="65" rx="3.5" ry="5" transform="rotate(-25 -4 65)" />
+      <ellipse cx="-12" cy="78" rx="3" ry="5.5" transform="rotate(-20 -12 78)" />
+      <ellipse cx="2" cy="82" rx="2.5" ry="4.5" transform="rotate(-25 2 82)" />
+      <ellipse cx="-8" cy="98" rx="3" ry="5" transform="rotate(-15 -8 98)" />
+    </g>
+  </g>
+</svg>

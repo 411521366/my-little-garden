@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" aria-label="Sunflower sprout with two tender green leaves">
+  <defs>
+    <radialGradient id="sproutSky" cx="50%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#fffde7" />
+      <stop offset="50%" stop-color="#e1f5fe" />
+      <stop offset="100%" stop-color="#c8e6c9" />
+    </radialGradient>
+    <linearGradient id="sproutStem" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#43a047" />
+      <stop offset="50%" stop-color="#81c784" />
+      <stop offset="100%" stop-color="#388e3c" />
+    </linearGradient>
+    <linearGradient id="leafGradLeft" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#4caf50" />
+      <stop offset="70%" stop-color="#81c784" />
+      <stop offset="100%" stop-color="#a5d6a7" />
+    </linearGradient>
+    <linearGradient id="leafGradRight" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#43a047" />
+      <stop offset="70%" stop-color="#66bb6a" />
+      <stop offset="100%" stop-color="#a5d6a7" />
+    </linearGradient>
+    <linearGradient id="sproutSoil" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#795548" />
+      <stop offset="40%" stop-color="#5d4037" />
+      <stop offset="100%" stop-color="#3e2723" />
+    </linearGradient>
+    <filter id="leafShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#1b5e20" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Sky background -->
+  <rect width="320" height="320" rx="28" fill="url(#sproutSky)" />
+
+  <!-- Soil section -->
+  <path d="M 0 195 Q 80 185 160 190 T 320 188 L 320 320 L 0 320 Z" fill="url(#sproutSoil)" />
+  <path d="M 0 195 Q 80 185 160 190 T 320 188 L 320 200 Q 240 194 160 198 T 0 200 Z" fill="#81c784" opacity="0.9" />
+
+  <!-- Soil mounds & textures -->
+  <ellipse cx="160" cy="195" rx="36" ry="10" fill="#6d4c41" />
+  <circle cx="95" cy="235" r="4" fill="#a1887f" opacity="0.6" />
+  <circle cx="230" cy="225" r="5" fill="#8d6e63" opacity="0.6" />
+  <circle cx="120" cy="270" r="4.5" fill="#a1887f" opacity="0.7" />
+  <circle cx="205" cy="280" r="5" fill="#8d6e63" opacity="0.7" />
+
+  <!-- Discarded empty seed coat on ground -->
+  <g transform="translate(198, 192) rotate(42) scale(0.65)">
+    <path d="M 0 -25 C 18 -10 22 14 12 28 C 6 35 -8 35 -14 28 C -22 14 -18 -10 0 -25 Z" fill="#3e2723" />
+    <!-- Crack in seed coat -->
+    <path d="M 0 -22 L 4 0 L -2 15 L 0 26" stroke="#fff8e1" stroke-width="2" fill="none" opacity="0.8" />
+  </g>
+
+  <!-- Root system in soil -->
+  <g stroke="#c8e6c9" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M 160 198 Q 158 230 162 265 Q 163 285 158 302" />
+    <path d="M 160 215 Q 140 230 128 248" stroke-width="2" />
+    <path d="M 161 235 Q 180 248 194 260" stroke-width="2" />
+    <path d="M 162 255 Q 148 272 138 288" stroke-width="1.8" />
+    <path d="M 162 270 Q 174 285 182 296" stroke-width="1.6" />
+  </g>
+
+  <!-- Main Sprout Stem -->
+  <path d="M 155 198 Q 156 150 158 115 L 164 115 Q 166 150 167 198 Z" fill="url(#sproutStem)" />
+
+  <!-- Left Cotyledon Leaf -->
+  <g filter="url(#leafShadow)">
+    <path d="M 158 120 C 130 115 90 95 72 118 C 60 134 85 156 122 148 C 145 142 156 128 158 120 Z" 
+          fill="url(#leafGradLeft)" />
+    <!-- Leaf vein -->
+    <path d="M 158 122 Q 120 126 80 122" stroke="#e8f5e9" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8" />
+    <path d="M 130 124 Q 120 115 112 110" stroke="#e8f5e9" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.7" />
+    <path d="M 135 125 Q 125 138 120 144" stroke="#e8f5e9" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.7" />
+  </g>
+
+  <!-- Right Cotyledon Leaf with Glistening Water Drop -->
+  <g filter="url(#leafShadow)">
+    <path d="M 162 120 C 190 115 230 95 248 118 C 260 134 235 156 198 148 C 175 142 164 128 162 120 Z" 
+          fill="url(#leafGradRight)" />
+    <!-- Leaf vein -->
+    <path d="M 162 122 Q 200 126 240 122" stroke="#e8f5e9" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8" />
+    <path d="M 190 124 Q 200 115 208 110" stroke="#e8f5e9" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.7" />
+    <path d="M 185 125 Q 195 138 200 144" stroke="#e8f5e9" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.7" />
+
+    <!-- Dewdrop on right leaf -->
+    <ellipse cx="230" cy="118" rx="7" ry="6" fill="#4fc3f7" opacity="0.85" />
+    <ellipse cx="228" cy="116" rx="2.5" ry="1.8" fill="#ffffff" opacity="0.95" />
+  </g>
+
+  <!-- Tiny tender center shoot tip -->
+  <path d="M 158 115 Q 160 98 164 92 Q 166 100 164 115 Z" fill="#a5d6a7" />
+  <path d="M 156 115 Q 155 104 152 98 Q 157 104 158 115 Z" fill="#81c784" />
+
+  <!-- Cheerful little face on the stem -->
+  <g transform="translate(161, 142)">
+    <!-- Happy eyes -->
+    <ellipse cx="-4" cy="0" rx="1.8" ry="2.2" fill="#1b5e20" />
+    <ellipse cx="4" cy="0" rx="1.8" ry="2.2" fill="#1b5e20" />
+    <circle cx="-4.5" cy="-0.6" r="0.6" fill="#ffffff" />
+    <circle cx="3.5" cy="-0.6" r="0.6" fill="#ffffff" />
+    <!-- Cute open smile -->
+    <path d="M -2.5 3 Q 0 5.5 2.5 3" stroke="#1b5e20" stroke-width="1.4" fill="none" stroke-linecap="round" />
+    <!-- Pink cheeks -->
+    <circle cx="-7" cy="2.5" r="2" fill="#ff8a80" opacity="0.8" />
+    <circle cx="7" cy="2.5" r="2" fill="#ff8a80" opacity="0.8" />
+  </g>
+
+  <!-- Floating nature sparkles -->
+  <g fill="#ffe082" opacity="0.85">
+    <path d="M 85 85 Q 85 78 88 78 Q 91 78 91 85 Q 91 92 88 92 Q 85 92 85 85 Z" />
+    <path d="M 235 70 Q 235 64 238 64 Q 241 64 241 70 Q 241 76 238 76 Q 235 76 235 70 Z" />
+    <circle cx="160" cy="60" r="3" fill="#ffd54f" />
+    <circle cx="115" cy="100" r="2" />
+    <circle cx="210" cy="95" r="2.5" />
+  </g>
+</svg>
