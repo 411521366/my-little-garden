@@ -1,0 +1,99 @@
+/*
+ * garden.css — Garden-specific styles.
+ *
+ * Started by OpenCode for Version 1 and owned by Antigravity from Version 3,
+ * when the placeholder visuals will be replaced with real artwork,
+ * animations, and richer layout.
+ */
+
+.garden {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.garden__title {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+/* The main plot showing the plant's current stage. */
+.garden__plot {
+  background: linear-gradient(180deg, #d8f0c0 0%, var(--color-grass) 100%);
+  border: 3px solid var(--color-leaf);
+  border-radius: 20px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.garden__art {
+  font-size: 4.5rem;
+  display: inline-block;
+  line-height: 1;
+}
+
+.garden__stage-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.garden__stage-desc {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* The four-stage progress strip. */
+.garden__stages {
+  display: flex;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.garden__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 5.5rem;
+  padding: 0.75rem 0.5rem;
+  border-radius: 16px;
+  background: #f1f7ec;
+  border: 2px solid transparent;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.garden__stage.is-current {
+  opacity: 1;
+  border-color: var(--color-sun);
+  background: #fff8dc;
+  transform: scale(1.05);
+}
+
+.garden__stage-art {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.garden__stage-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.garden__stage-number {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+/* Small note marking this as a placeholder. */
+.garden__note {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  text-align: center;
+  margin: 0;
+}
