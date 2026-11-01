@@ -126,3 +126,35 @@ body {
   font-size: 0.9rem;
   opacity: 0.75;
 }
+
+/* --- Congratulations screen --- */
+.congrats__title {
+  font-size: 2.2rem;
+  margin: 0 0 0.5rem;
+}
+
+.congrats__lead {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.congrats__stars {
+  font-size: 1.1rem;
+  margin: 0 0 1rem;
+}
+
+.congrats__note {
+  font-size: 0.95rem;
+  font-style: italic;
+  opacity: 0.85;
+  margin: 0 auto 1.5rem;
+  max-width: 32rem;
+}
+
+.congrats__actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}

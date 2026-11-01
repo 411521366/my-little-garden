@@ -12,9 +12,32 @@
   gap: 1.25rem;
 }
 
+/* Header row with the title and reward counters. */
+.garden__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .garden__title {
   font-size: 1.8rem;
   margin: 0;
+}
+
+.garden__rewards {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.garden__reward {
+  font-weight: 700;
+  font-size: 1.1rem;
+  background: #fff8dc;
+  border: 2px solid var(--color-sun);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
 }
 
 /* The main plot showing the plant's current stage. */
@@ -41,6 +64,60 @@
 .garden__stage-desc {
   margin: 0;
   font-size: 1rem;
+}
+
+/* Encouraging achievement message. */
+.garden__achievement {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: #fff3d6;
+  border: 2px solid var(--color-sun);
+  border-radius: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Care action buttons (water + sunlight). */
+.garden__care {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.garden__care-btn {
+  flex: 1;
+  min-width: 9rem;
+  background: #eef7ff;
+  color: var(--color-text);
+  border: 2px solid #bfe9ff;
+  box-shadow: none;
+}
+
+.garden__care-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.garden__care-btn.is-done {
+  background: #e4f8e4;
+  border-color: var(--color-leaf);
+}
+
+.garden__care-btn:disabled {
+  opacity: 0.75;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Grow button. */
+.garden__grow {
+  width: 100%;
+}
+
+.garden__grow:disabled {
+  background: #d8d8d8;
+  box-shadow: none;
+  cursor: default;
+  transform: none;
 }
 
 /* The four-stage progress strip. */
@@ -83,11 +160,17 @@
 .garden__stage-label {
   font-weight: 700;
   font-size: 0.95rem;
+  text-align: center;
 }
 
 .garden__stage-number {
   font-size: 0.75rem;
   opacity: 0.6;
+}
+
+/* Restart button. */
+.garden__restart {
+  align-self: center;
 }
 
 /* Small note marking this as a placeholder. */
@@ -96,4 +179,47 @@
   opacity: 0.7;
   text-align: center;
   margin: 0;
+}
+
+/* --- Educational "what plants need" section --- */
+.learn {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: #f3fff4;
+  border: 2px solid var(--color-grass);
+  border-radius: 20px;
+  text-align: left;
+}
+
+.learn__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.3rem;
+}
+
+.learn__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.learn__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.learn__emoji {
+  font-size: 1.4rem;
+}
+
+.learn__note {
+  margin: 1rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--color-grass);
+  font-size: 0.95rem;
+  font-style: italic;
 }

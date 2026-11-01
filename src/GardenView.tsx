@@ -3,8 +3,9 @@ import type { GardenViewProps, GrowthStage } from "./types";
 /**
  * GardenView.tsx — Started by OpenCode, owned by Antigravity from Version 3.
  *
- * This is a PLACEHOLDER view. It is deliberately simple so the app runs in
- * Version 1, and Antigravity will replace the artwork and styles later.
+ * This is still a PLACEHOLDER view. It is deliberately simple so the app runs
+ * in Version 2, and Antigravity will replace the artwork and styles in
+ * Version 3.
  *
  * The component is purely presentational: it receives everything it needs
  * through GardenViewProps and never touches game logic directly.
@@ -24,7 +25,17 @@ const STAGE_ART: Record<GrowthStage, string> = {
 export default function GardenView({
   plant,
   stages,
+  waterDrops,
+  stars,
+  hasWater,
+  hasSun,
+  canGrow,
+  isFullyGrown,
+  achievementMessage,
+  onWater,
+  onSunlight,
   onAdvanceStage,
+  onRestart,
 }: GardenViewProps) {
   // Find the label and description for the plant's current stage.
   const currentStage =
@@ -32,7 +43,19 @@ export default function GardenView({
 
   return (
     <section className="garden" aria-label="Virtual garden">
-      <h2 className="garden__title">{plant.name}'s Garden</h2>
+      <div className="garden__header">
+        <h2 className="garden__title">{plant.name}'s Garden</h2>
+
+        {/* Rewards: water drops and stars. */}
+        <div className="garden__rewards" aria-label="Rewards">
+          <span className="garden__reward" title="Water drops">
+            💧 {waterDrops}
+          </span>
+          <span className="garden__reward" title="Stars earned">
+            ⭐ {stars}/{stages.length - 1}
+          </span>
+        </div>
+      </div>
 
       {/* The plant's current look and stage description. */}
       <div className="garden__plot">
@@ -42,6 +65,47 @@ export default function GardenView({
         <p className="garden__stage-name">{currentStage.label}</p>
         <p className="garden__stage-desc">{currentStage.description}</p>
       </div>
+
+      {/* Encouraging achievement message, when there is one. */}
+      {achievementMessage && (
+        <p className="garden__achievement" role="status">
+          {achievementMessage}
+        </p>
+      )}
+
+      {/* Care actions. Completed actions are clearly marked and disabled. */}
+      <div className="garden__care">
+        <button
+          type="button"
+          className={`button garden__care-btn${hasWater ? " is-done" : ""}`}
+          onClick={onWater}
+          disabled={hasWater || waterDrops === 0 || isFullyGrown}
+        >
+          {hasWater ? "💧 Watered ✓" : "💧 Water"}
+        </button>
+        <button
+          type="button"
+          className={`button garden__care-btn${hasSun ? " is-done" : ""}`}
+          onClick={onSunlight}
+          disabled={hasSun || isFullyGrown}
+        >
+          {hasSun ? "☀️ Sunny ✓" : "☀️ Sunlight"}
+        </button>
+      </div>
+
+      {/* Grow is only allowed once both care actions are done. */}
+      <button
+        type="button"
+        className="button button--primary garden__grow"
+        onClick={onAdvanceStage}
+        disabled={!canGrow}
+      >
+        {isFullyGrown
+          ? "🌻 Fully grown!"
+          : canGrow
+            ? "Grow to the next stage →"
+            : "Care for your plant to grow"}
+      </button>
 
       {/* A simple visual of all four planned growth stages. */}
       <ol className="garden__stages" aria-label="Growth stages">
@@ -63,13 +127,13 @@ export default function GardenView({
         })}
       </ol>
 
-      {/* Version 1 preview control so we can see every stage. */}
+      {/* Restart option. */}
       <button
         type="button"
-        className="button button--primary"
-        onClick={onAdvanceStage}
+        className="button button--ghost garden__restart"
+        onClick={onRestart}
       >
-        Grow to the next stage →
+        🔄 Start a new seed
       </button>
 
       <p className="garden__note">

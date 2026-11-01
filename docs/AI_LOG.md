@@ -78,12 +78,95 @@ are planned for Version 2 and Version 3.
 
 ---
 
-## Planned: Version 2 (not yet started)
+## Version 2 — Educational Gameplay
 
-OpenCode will add watering, sunlight, real growth rules, and progress saving.
+**Agent:** OpenCode (lead developer)
+**Goal:** Add quizzes, real growth mechanics, rewards, and progress saving.
+
+### What OpenCode did
+
+1. **Extended the shared contract (`src/types.ts`)**
+   - Added `GROWTH_STAGES` as the single source of truth for stage order.
+   - Added `GameProgress` (stage, water drops, stars, care flags, answered
+     questions) — the shape saved to localStorage.
+   - Extended `GardenViewProps` with the new data the view needs:
+     `waterDrops`, `stars`, `hasWater`, `hasSun`, `canGrow`, `isFullyGrown`,
+     `achievementMessage`, and the `onWater` / `onSunlight` / `onRestart`
+     callbacks. Kept `plant`, `stages`, and `onAdvanceStage` unchanged.
+   - Added `QuizQuestion` and `QuizPanelProps` for the quiz.
+
+2. **Educational quizzes (`src/quizData.ts`, `src/QuizPanel.tsx`)**
+   - Wrote 10 age-appropriate multiple-choice questions (3 choices each)
+     covering water, roots, sunlight, air, nutrients, growth time, and bees.
+   - Each question has a short, friendly explanation shown after answering.
+   - A correct answer to a **new** question earns one water drop; the same
+     question never pays out twice (tracked by `answeredQuestionIds`).
+   - Incorrect answers show encouragement ("Almost! Try again") with **no**
+     penalty, and the child can retry immediately.
+
+3. **Plant growth (`src/App.tsx`)**
+   - Four stages: Seed → Sprout → Young Plant → Blooming Sunflower
+     (identifiers `seed → sprout → budding → bloom`).
+   - Three growth transitions, each requiring **one watering + one
+     sunlight** action before "Grow" unlocks.
+   - Watering consumes one earned water drop; completed care actions are
+     clearly shown ("💧 Watered ✓", "☀️ Sunny ✓") and disabled.
+   - Care requirements reset after every transition.
+
+4. **Rewards**
+   - Water drops earned from quizzes and spent on watering.
+   - One star earned per growth transition (max 3), shown as "⭐ n/3".
+   - Encouraging achievement messages on care and growth events.
+   - A final congratulations screen when the sunflower blooms.
+
+5. **Progress saving (`src/storage.ts`)**
+   - Saves `GameProgress` to localStorage on every change; restores it on
+     load so a refresh keeps the child's progress.
+   - Corrupted JSON or structurally-invalid data is safely rejected and the
+     game starts fresh (never crashes).
+   - A "Start a new seed" restart resets state and clears the save.
+
+6. **Educational accuracy**
+   - Added a "What plants really need" section (water, sunlight, air,
+     nutrients, time) with a short fact for each.
+   - Added a note explaining real plants grow over weeks/months while the
+     game speeds it up.
+
+7. **Styling** — added `src/quiz.css` and extended `src/garden.css` /
+   `src/index.css` for the new controls, rewards, and congrats screen.
+
+### Testing performed (live in the browser + `npm run build`)
+
+| Test | Result |
+| ---- | ------ |
+| `npm run build` (tsc + Vite) | ✅ Passed, 38 modules |
+| Quiz correct answer earns a water drop | ✅ 💧 0→1, "You earned a water drop" |
+| Quiz incorrect answer → retry, no punishment | ✅ "Almost! Try again", no drop lost |
+| Repeat answer gives no second drop | ✅ "You already earned this drop", 💧 stayed 0 |
+| Watering consumes a drop | ✅ 💧 1→0, "💧 Watered ✓", `hasWater:true` |
+| Sunlight marks light done | ✅ "☀️ Sunny ✓", Grow unlocked |
+| Growth transition | ✅ seed→Sprout, ⭐ 0→1, care reset, message shown |
+| Progress saved to localStorage | ✅ Save written on each change |
+| Restore after browser refresh | ✅ Returned to garden, Sprout, ⭐1/3 |
+| Restart clears progress | ✅ Back to welcome, save cleared |
+| Corrupted save (bad JSON) | ✅ Started fresh, no crash |
+| Invalid save (wrong shape) | ✅ Rejected, started fresh |
+| Congrats screen on full bloom | ✅ "🎉 Congratulations!", 3 ⭐ |
+
+### Design decisions
+
+- **Kept `onAdvanceStage`** in the contract to avoid needless churn; only
+  added the props Version 2 genuinely needs.
+- **Quiz is OpenCode's** (per `AGENTS.md`), so it lives in its own
+  `QuizPanel.tsx` with its own small `QuizPanelProps` contract rather than
+  being folded into Antigravity's `GardenView`.
+- **Guarded reward logic** (`handleAnswerCorrect` checks
+  `answeredQuestionIds`) so double-firing can never pay twice.
+
+---
 
 ## Planned: Version 3 (not yet started)
 
 Antigravity will take ownership of `GardenView.tsx` and `garden.css`, replace
-the placeholder emoji with real artwork and animations, and quizzes will be
-added.
+the placeholder emoji with real artwork and animations, and refine the overall
+visual design.

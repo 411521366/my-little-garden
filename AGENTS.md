@@ -17,8 +17,12 @@ parallel without conflicting.
 
 - `src/App.tsx` — game logic, state, and screen routing
 - `src/types.ts` — the shared TypeScript contract
+- `src/QuizPanel.tsx` — the quiz component
+- `src/quizData.ts` — the quiz questions
+- `src/storage.ts` — localStorage save/load logic
 - `src/main.tsx` — React entry point
 - `src/index.css` — global theme and base styles
+- `src/quiz.css` — quiz styles
 - `vite.config.ts`, `tsconfig.json`, `package.json`, `index.html`
 - All core logic (growth rules, watering, sunlight, quizzes)
 - Quiz data and configuration
@@ -70,11 +74,12 @@ Game logic decides which stage the plant is in. The view only displays it.
 
 ## Version plan
 
-- **Version 1 (current)** — project setup, welcome screen, basic garden, four
+- **Version 1 (done)** — project setup, welcome screen, basic garden, four
   stage visuals, placeholder view.
-- **Version 2** — watering, sunlight, real growth rules, progress saving.
-- **Version 3** — Antigravity restyles the garden with real artwork and
-  animations; quizzes are added.
+- **Version 2 (done)** — watering, sunlight, real growth rules, quizzes,
+  rewards, and progress saving.
+- **Version 3 (next)** — Antigravity restyles the garden with real artwork
+  and animations.
 
 ## Conventions
 
