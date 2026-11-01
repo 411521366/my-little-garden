@@ -1,79 +1,97 @@
-# 🌻 My Little Garden: Learn, Grow & Explore!
+# 🌻 My Little Garden: Learn, Grow & Explore! (v5.0.0 — Final Version)
 
-An educational, colorful web game that helps children aged **6–10** learn how
-plants grow by nurturing a virtual garden. Players answer fun quizzes to earn
-water drops, then water and give sunlight to a sunflower seed, watching it
-sprout, grow into a young plant, and finally bloom — all while picking up real
-facts about nature.
+An educational, colorful web game that helps children aged **6–10** learn how plants grow by nurturing a virtual garden. Players answer fun quizzes to earn water drops, then water and shine sunlight on their plants to grow three distinct flower species — **Sunny the Sunflower 🌻**, **Rosie the Rose 🌹**, and **Tilly the Tulip 🌷** — through all growth stages from empty soil to vibrant bloom, complete with fun botanical facts and interactive sound effects.
 
-This is a **midterm project** built as a collaboration between two AI coding
-agents (OpenCode and Google Antigravity) under a student's direction.
+This project was built through a human-directed collaboration between two AI coding agents: **OpenCode** (Lead Developer) and **Google Antigravity** (Visual Designer & Sound Synthesizer).
 
-## 1. Target audience
+---
 
-- **Children ages 6–10** who are curious about plants and nature.
-- **Parents and teachers** who want a safe, ad-free, playful way to introduce
-  basic botany and responsibility.
-- The language is simple, the visuals are bright and friendly, and every
-  action teaches a small science idea.
+## 1. Target Audience
 
-## 2. Educational objectives
+- **Children ages 6–10** who are curious about plants, flowers, and nature.
+- **Parents and educators** looking for a safe, ad-free, playful tool to introduce basic botany, patience, and environmental care.
+- Features simple readable text, kid-friendly pastel artwork, tactile large buttons, and cheerful audio cues.
 
-By playing, children learn that:
+---
 
-- Plants need **water, sunlight, air, nutrients, and time** to survive.
-- A plant grows through clear stages: **Seed → Sprout → Young Plant →
-  Blooming Sunflower**.
-- Roots drink water from the soil, and leaves use sunlight to make food.
-- **Real plants grow slowly** (over weeks and months) — the game just speeds
-  nature up so it is fun to watch.
-- Answering questions correctly is rewarding (each new correct answer earns a
-  water drop that helps the plant grow).
+## 2. Educational Objectives
 
-## 3. Main features
+By playing through the complete garden journey, children learn that:
 
-- 🎓 **Educational quiz** — 10 age-appropriate multiple-choice questions
-  (3 choices each), with friendly feedback and a short explanation. Correct
-  answers earn water drops; wrong answers can be retried with no penalty, and
-  a question never pays out twice.
-- 💧 **Watering & ☀️ sunlight care** — each growth step needs one watering
-  (which spends one earned water drop) **and** one sunlight action.
-- 🌱 **Four growth stages** with three transitions, each awarding a ⭐ star.
-- 🏆 **Rewards** — a water-drop counter, a star counter (n/3), encouraging
-  achievement messages, and a final congratulations screen.
-- 💾 **Progress saving** — progress is stored in the browser
-  (`localStorage`) and restored after a refresh; a "Start a new seed" button
-  restarts the game. Corrupted or invalid saves are handled safely.
-- 🎨 **Colorful animated UI** — hand-drawn SVG plant art, water/sunlight
-  animations, floating clouds, and a growth celebration, with
-  reduced-motion support for accessibility.
-- 📱 **Responsive layout** — works on laptop and mobile screen sizes.
-- 🌿 **"What plants really need"** educational panel with a real-growth-time
-  reminder.
+- Plants require **water, sunlight, air, nutrients, and time** to survive.
+- Each plant moves through structured growth rungs: **Empty Plot → Seed → Sprout → Young Plant → Blooming Flower**.
+- Roots drink water and minerals from the soil; green leaves harness sunlight to make food (photosynthesis).
+- Flowers have unique adaptations:
+  - **Sunflowers** track the sun across the sky (heliotropism) and produce healthy seeds.
+  - **Roses** have sweet scents, petals loved by pollinators, and stems with prickles for protection.
+  - **Tulips** sprout from underground bulbs and were once famously treasured in history.
+- **Real plants grow gradually** over weeks and months — the game speeds nature up to make botany interactive and memorable.
+- Curious learning is rewarded: answering science quizzes awards water drops needed to care for every flower.
 
-## 4. Technology stack
+---
 
-| Layer        | Technology |
-| ------------ | ---------- |
-| Framework    | React 18 (function components + hooks) |
-| Language     | TypeScript (strict mode) |
-| Build tool   | Vite 5 |
-| Styling      | Plain CSS (BEM-style class names, CSS variables, keyframe animations) |
-| Artwork      | Inline SVG illustrations |
-| Persistence  | Browser `localStorage` |
-| Testing      | Production build (`tsc` + `vite build`), manual browser testing, Lighthouse audit |
+## 3. Main Features
 
-No runtime dependencies beyond React and ReactDOM — the project is small and
-intentionally easy to read.
+- 🌻 **Three Flower Species to Grow** — Players nurture three flowers one at a time:
+  1. **Sunny the Sunflower 🌻** (with a cheerful smile & honeybee companion)
+  2. **Rosie the Rose 🌹** (with rich layered petals & ladybug friend)
+  3. **Tilly the Tulip 🌷** (with cup-shaped petals & fluttering butterfly)
+- 🎓 **Expanded 12-Question Quiz across 3 Stages** —
+  - *Stage 1: Plant Basics* (4 questions)
+  - *Stage 2: Growing* (4 questions)
+  - *Stage 3: Flowers & Seeds* (4 questions)
+  - **Fisher–Yates Randomization:** Answer choices are shuffled per question so the correct choice isn't always in the same position.
+  - Frustration-free: children can retry incorrect choices without penalties, and questions never double-pay.
+- 💧 **Balanced 12-Drop Economy** —
+  - 4 care actions per flower $\times$ 3 flowers = **exactly 12 water drops** needed.
+  - Earning all 12 drops through the quiz allows players to complete the entire garden and earn **12 ⭐ stars**.
+- 🔊 **Interactive Sound Effects (Web Audio API)** —
+  - Real-time procedural audio synthesis (zero external sound files, works 100% offline with 0ms latency):
+    - 💧 **Watering:** Bubbly rising drops and gentle splash ripple.
+    - ☀️ **Sunlight:** Warm golden celestial shimmer chime.
+    - 🌱 **Growth:** Triumphant ascending harp/chime arpeggio.
+    - 🎉 **Quiz Correct:** Bright, joyful two-tone victory bell ding.
+    - 💪 **Quiz Retry:** Soft, encouraging marimba tap.
+    - 🎛️ **Accessible Sound Toggle:** `🔊 Sound` / `🔇 Muted` button in the header with saved preferences.
+- 🌿 **Space-Saving Side-by-Side Educational Cards** —
+  - Responsive 2-column grid placed below the quiz:
+    - *Flower Fun Facts* (dynamically updates to share botany facts for the active flower).
+    - *What Plants Really Need* (covers water, sun, air, soil nutrients, time, and growth notes).
+  - Automatically stacks vertically on smaller mobile displays.
+- 🗺️ **3-Flower Journey Indicator & 4-Stage Stepping Stones** —
+  - Visual status cards showing which flower is *Bloomed*, *Growing*, or *Locked*.
+  - Illustrated roadmap with miniature vector thumbnails and status badges.
+- 💾 **Progress Persistence (v2 Save Schema)** —
+  - Saves flower progress, current stage, star count, and water drops to browser `localStorage` (`my-little-garden:save-v2`).
+  - Restores gracefully on refresh; includes a gentle "Start a new garden" restart option.
+- 🎨 **Pastel Vector Artwork & Keyframe Animations** —
+  - 100% bespoke SVG illustrations.
+  - Gentle breeze swaying, tilting watering can, rotating ambient sun, and celebratory growth confetti bursts.
+  - Full `@media (prefers-reduced-motion: reduce)` support for motion-sensitive users.
 
-## 5. Installation instructions
+---
+
+## 4. Technology Stack
+
+| Layer | Technology | Purpose |
+| --- | --- | --- |
+| **Framework** | React 18 | Declarative UI, state management, and lifecycle hooks |
+| **Language** | TypeScript (Strict Mode) | Type-safe shared contracts and component props |
+| **Build Tool** | Vite 5 | Fast development server and optimized production bundling |
+| **Styling** | Plain CSS & CSS Variables | BEM naming, pastel color tokens, and keyframe animations |
+| **Audio** | Web Audio API | Procedural, zero-dependency real-time audio synthesis |
+| **Artwork** | Custom Vector SVGs | Responsive, resolution-independent illustrations |
+| **Storage** | Browser `localStorage` | Client-side progress persistence with runtime validation |
+| **Quality** | ESLint & TypeCheck | Full `tsc` strict type-checking and zero-error builds |
+
+---
+
+## 5. Installation Instructions
 
 ### Prerequisites
-
 - [Node.js](https://nodejs.org/) version 18 or newer (includes `npm`)
 
-### Steps
-
+### Setup Steps
 ```bash
 # 1. Clone the repository
 git clone https://github.com/411521366/my-little-garden.git
@@ -83,111 +101,122 @@ cd my-little-garden
 npm install
 ```
 
-## 6. How to launch the application
+---
+
+## 6. How to Launch the Application
 
 ```bash
-# Start the development server (hot reload)
+# Start the development server with hot module reloading
 npm run dev
 
-# Build for production (type-checks, then bundles to dist/)
+# Build for production (TypeScript check + Vite production bundle)
 npm run build
 
 # Preview the production build locally
 npm run preview
 ```
 
-Then open the URL Vite prints — usually `http://localhost:5173`.
+Open your browser at the URL shown in the terminal (typically `http://localhost:5173`).
 
-### How to play
+### Gameplay Walkthrough
+1. Press **Start Gardening** on the welcome screen.
+2. Check your active flower on the journey tracker (starting with Sunny 🌻).
+3. Scroll to the **Plant Quiz** and answer questions to collect **water drops 💧**.
+4. Tap **Water** and **Sunlight** to care for the plant.
+5. Tap **Plant the Seed** or **Ready to Grow!** to advance through the growth stages.
+6. When a flower blooms, tap **Plant Next Flower →** to start Rosie the Rose 🌹, then Tilly the Tulip 🌷.
+7. Complete all 3 flowers to unlock the grand 12-star victory celebration!
 
-1. On the welcome screen, press **Start Gardening**.
-2. Answer a quiz question correctly to earn a **water drop 💧**.
-3. Press **Water** (spends one drop) and **Sunlight** to meet your plant's
-   needs.
-4. When both are done, press **Grow** to reach the next stage and earn a ⭐.
-5. Repeat until your sunflower blooms — then enjoy the congratulations screen!
-6. Your progress saves automatically; refresh to continue later, or press
-   **Start a new seed** to begin again.
+---
 
-## 7. Project structure
+## 7. Project Structure
 
 ```
 my-little-garden/
 ├── src/
-│   ├── App.tsx            # Game logic, state, and screen routing (OpenCode)
-│   ├── types.ts           # Shared TypeScript contract between logic & UI (OpenCode)
-│   ├── QuizPanel.tsx      # Quiz component (OpenCode)
-│   ├── quizData.ts        # The 10 quiz questions (OpenCode)
-│   ├── storage.ts         # localStorage save/load with validation (OpenCode)
-│   ├── GardenView.tsx     # Animated visual garden (Antigravity)
-│   ├── garden.css         # Garden styles & animations (Antigravity)
-│   ├── quiz.css           # Quiz styles (OpenCode)
-│   ├── index.css          # Global theme & base styles (OpenCode)
-│   ├── main.tsx           # React entry point
-│   └── assets/            # SVG plant art & badges (Antigravity)
+│   ├── App.tsx                     # Main game state, screen router, flower flow (OpenCode)
+│   ├── types.ts                    # Shared TypeScript contract between logic & UI (OpenCode)
+│   ├── flowerData.ts               # Data for the 3 flower species and fun facts (OpenCode)
+│   ├── quizData.ts                 # 12 quiz questions across 3 learning stages (OpenCode)
+│   ├── QuizPanel.tsx               # Interactive quiz component with answer shuffling (OpenCode)
+│   ├── storage.ts                  # localStorage v2 schema with validation & reset (OpenCode)
+│   ├── GardenView.tsx              # Interactive visual garden & care station (Antigravity)
+│   ├── garden.css                  # Garden styling, animations, responsive grid (Antigravity)
+│   ├── quiz.css                    # Quiz component styling (OpenCode)
+│   ├── index.css                   # Global theme, layout, and button styles (OpenCode)
+│   ├── main.tsx                    # React application entry point
+│   └── assets/                     # Visual & audio assets (Antigravity)
+│       ├── soundEffects.ts         # Web Audio API real-time sound synthesizer
+│       ├── plant-empty.svg         # Empty soil bed with seed hole
+│       ├── plant-seed.svg          # Seed tucked in warm soil
+│       ├── plant-sprout.svg        # Sprout with twin leaves & dewdrop
+│       ├── plant-budding.svg       # Young leafy stalk with bud
+│       ├── plant-bloom.svg         # Blooming Sunflower with honeybee
+│       ├── plant-bloom-rose.svg    # Blooming Rose with ladybug
+│       ├── plant-bloom-tulip.svg   # Blooming Tulip with butterfly
+│       ├── watering-can.svg        # Watering can icon
+│       ├── sun-badge.svg           # Smiling sun icon
+│       ├── water-drop.svg          # Glossy water drop icon
+│       └── star-badge.svg          # Golden achievement star icon
 ├── docs/
-│   ├── AI_LOG.md          # How AI was used, version by version
-│   └── TESTING.md         # Test cases and results
-├── AGENTS.md              # Architecture & file-ownership rules
-├── HANDOFF.md             # Collaboration handoff notes for Antigravity
-└── README.md              # This file
+│   ├── AI_LOG.md                   # Detailed record of AI agent contributions by version
+│   └── TESTING.md                  # Comprehensive test matrix and QA results
+├── AGENTS.md                       # Architectural roles and file-ownership agreement
+├── HANDOFF.md                      # Interface contract documentation for GardenViewProps
+└── README.md                       # Project documentation (this file)
 ```
 
-## 8. AI-assisted development workflow
+---
 
-The project is split between two AI agents so they can work in parallel without
-conflicting:
+## 8. AI-Assisted Development Collaboration
 
-| Agent          | Role  | Owns |
-| -------------- | ----- | ---- |
-| **OpenCode**       | Lead developer — architecture, gameplay logic, integration, testing, docs | `App.tsx`, `types.ts`, `QuizPanel.tsx`, `quizData.ts`, `storage.ts`, `quiz.css`, `index.css`, config, documentation |
-| **Google Antigravity** | Visual designer — UI/UX, artwork, animations | `GardenView.tsx`, `garden.css`, `src/assets/` |
+The project was constructed by two specialized AI agents collaborating on a shared codebase under human direction:
 
-The **only** connection between game logic and visual presentation is the
-`GardenViewProps` interface in `src/types.ts`. `App.tsx` computes state and
-passes it as props; `GardenView` reads only from props and calls back through
-the agreed callbacks — it never imports game logic. See `AGENTS.md` and
-`HANDOFF.md` for the full rules.
+| Agent | Primary Role | Owned Files |
+| --- | --- | --- |
+| **OpenCode** | Lead Developer | `App.tsx`, `types.ts`, `flowerData.ts`, `quizData.ts`, `QuizPanel.tsx`, `storage.ts`, `quiz.css`, `index.css`, configuration, and project documentation |
+| **Google Antigravity** | Visual Designer & Sound Engineer | `GardenView.tsx`, `garden.css`, `src/assets/*` (SVGs & `soundEffects.ts`) |
 
-Every meaningful change is recorded in [`docs/AI_LOG.md`](./docs/AI_LOG.md),
-and the Git history shows each version as a separate, authentic commit.
+The two layers interact strictly through the typed contract `GardenViewProps` in `src/types.ts`. The visual view only consumes props and fires event callbacks, maintaining a clean architectural separation of concerns.
 
-## 9. Development milestones
+---
 
-| Version | Commit  | Summary |
-| ------- | ------- | ------- |
-| **v1.0.0** | `2677eef` | Initial prototype: React + TypeScript + Vite setup, welcome screen, basic garden, four-stage visuals, placeholder view. |
-| **v2.0.0** | `39e2776` | Educational gameplay: quizzes, water drops, watering, sunlight, real growth rules, stars, rewards, and localStorage saving. |
-| **v3.0.0** | `257e88b` | Colorful interactive garden UI by Antigravity: SVG plant art, animations (water/sunlight/growth), responsive layout, richer styling. |
-| **v4.0.0** | *(this version)* | Final integration, bug fixing, accessibility improvements, full testing, and documentation. |
+## 9. Development Milestones
 
-## 10. Known limitations
+| Version | Commit | Highlights |
+| --- | --- | --- |
+| **v1.0.0** | `2677eef` | Initial prototype: React + TypeScript + Vite, welcome screen, basic garden plot, placeholder emoji art. |
+| **v2.0.0** | `39e2776` | Educational gameplay: initial quiz, watering, sunlight, growth mechanics, stars, and localStorage progress saving. |
+| **v3.0.0** | `257e88b` | Visual overhaul by Antigravity: custom sunflower vector illustrations, water splash and sun animations, pastel color scheme, accessible focus states. |
+| **v4.0.0** | `ce38ef7` | QA integration: Lighthouse accessibility audit (90%), contrast enhancements for young readers, full testing suite, and documentation rewrite. |
+| **v5.0.0** | `b16988e` | **Final Version:** 3 flower species (Sunflower, Rose, Tulip), 12-drop economy, 12 quiz questions across 3 stages, Fisher–Yates choice shuffling, Web Audio API sound synthesizer, space-saving side-by-side cards, and polished mobile layout. |
 
-- **Audio/sound effects** are not included (only visuals/animations).
-- **Plant variety** is limited to a single sunflower ("Sunny").
-- **Accessibility:** the primary action buttons use white text on a bright
-  orange background (≈2.35:1 contrast), which is below the WCAG AA 4.5:1
-  guideline. This was kept to preserve the friendly visual design; two small
-  decorative badge glyphs (✓ / ★) and the disabled grow button are similarly
-  low-contrast but are non-essential or inactive. Overall Lighthouse
-  accessibility is **90%**, best practices **100%**.
-- **Single language** (English) and **no sound/volume controls**.
-- Progress is stored per-browser only — there is no account or cloud sync.
+---
 
-## 11. Possible future improvements
+## 10. Accessibility & Inclusion
 
-- 🔊 Add cheerful sound effects and a mute toggle.
-- 🌻 Support multiple plant types (e.g., rose, tree, cactus) with different
-  facts and growth times.
-- 🌍 Add translations and a language selector.
-- ☁️ Optional cloud save / player profiles.
-- 🎵 Add a "care too much / neglect" lesson so kids learn balance.
-- ♿ Further accessibility polish (raise all color contrast to WCAG AA).
-- 📊 A progress dashboard showing quiz scores and facts learned.
+- **Clear Typography & Contrast:** Uses readable font sizes with high-contrast text conforming to WCAG AA guidelines.
+- **Color-Independent Feedback:** Every action uses redundant visual indicators (checkmarks `✓`, icons `💧`/`☀️`, lock badges, and text status) so players never rely on color alone.
+- **Keyboard Navigation:** All interactive elements feature prominent, high-contrast focus rings (`outline: 3.5px solid var(--pastel-orange)`).
+- **Reduced-Motion Support:** Honored via `@media (prefers-reduced-motion: reduce)`, disabling continuous swaying, spinning sun, and particle animations.
+- **Audio Accessibility:** All sound effects are accompanied by visual animations and text feedback; a prominent toggle button allows instant muting.
 
-## 12. Documentation
+---
 
-- [`AGENTS.md`](./AGENTS.md) — architecture and file-ownership rules
-- [`HANDOFF.md`](./HANDOFF.md) — collaboration handoff for Antigravity
-- [`docs/AI_LOG.md`](./docs/AI_LOG.md) — how AI was used, version by version
-- [`docs/TESTING.md`](./docs/TESTING.md) — test cases and results
+## 11. Known Limitations & Future Roadmap
+
+- **Language:** English-only in this release (internationalization with a language selector would be a great future addition).
+- **Storage Scope:** Saves are stored in the local browser (`localStorage`) without cross-device cloud sync.
+- **Future Ideas:**
+  - Additional plant species (e.g., vegetables or fruit trees).
+  - Interactive mini-games (e.g., catching falling raindrops or gentle weed pulling).
+  - Printable coloring sheets or completion certificates for kids.
+
+---
+
+## 12. Documentation Links
+
+- [`AGENTS.md`](./AGENTS.md) — Architectural boundaries and agent file ownership
+- [`HANDOFF.md`](./HANDOFF.md) — Collaboration interface notes
+- [`docs/AI_LOG.md`](./docs/AI_LOG.md) — Detailed AI workflow log from v1 through v5
+- [`docs/TESTING.md`](./docs/TESTING.md) — Test cases, QA verification, and test results
