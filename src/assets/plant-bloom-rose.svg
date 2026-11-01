@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" aria-label="A blooming red rose with soft layered petals, a friendly smile, and a cheerful ladybug">
+  <defs>
+    <radialGradient id="roseSky" cx="50%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#fff3f4" />
+      <stop offset="45%" stop-color="#e1f5fe" />
+      <stop offset="100%" stop-color="#c8e6c9" />
+    </radialGradient>
+    <linearGradient id="roseStalk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2e7d32" />
+      <stop offset="50%" stop-color="#4caf50" />
+      <stop offset="100%" stop-color="#1b5e20" />
+    </linearGradient>
+    <linearGradient id="rosePetalBack" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ad1457" />
+      <stop offset="50%" stop-color="#d81b60" />
+      <stop offset="100%" stop-color="#ec407a" />
+    </linearGradient>
+    <linearGradient id="rosePetalFront" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#c2185b" />
+      <stop offset="55%" stop-color="#e91e63" />
+      <stop offset="100%" stop-color="#f8bbd0" />
+    </linearGradient>
+    <radialGradient id="roseHeart" cx="45%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#f06292" />
+      <stop offset="70%" stop-color="#d81b60" />
+      <stop offset="100%" stop-color="#ad1457" />
+    </radialGradient>
+    <linearGradient id="roseSoil" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#795548" />
+      <stop offset="40%" stop-color="#5d4037" />
+      <stop offset="100%" stop-color="#3e2723" />
+    </linearGradient>
+    <filter id="roseShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#880e4f" flood-opacity="0.28" />
+    </filter>
+  </defs>
+
+  <!-- Sky background -->
+  <rect width="320" height="320" rx="28" fill="url(#roseSky)" />
+
+  <!-- Soil section -->
+  <path d="M 0 240 Q 80 232 160 236 T 320 234 L 320 320 L 0 320 Z" fill="url(#roseSoil)" />
+  <path d="M 0 240 Q 80 232 160 236 T 320 234 L 320 248 Q 240 242 160 245 T 0 248 Z" fill="#81c784" opacity="0.95" />
+
+  <!-- Soil pebbles -->
+  <circle cx="82" cy="276" r="5" fill="#a1887f" opacity="0.6" />
+  <circle cx="238" cy="272" r="6" fill="#8d6e63" opacity="0.6" />
+  <circle cx="152" cy="296" r="5" fill="#a1887f" opacity="0.7" />
+
+  <!-- Underground roots -->
+  <g stroke="#c8e6c9" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M 160 245 Q 158 275 160 312" />
+    <path d="M 160 255 Q 130 270 115 292" stroke-width="2.5" />
+    <path d="M 160 260 Q 190 275 208 298" stroke-width="2.5" />
+  </g>
+
+  <!-- Graceful curved stem -->
+  <path d="M 153 245 Q 150 185 158 132 L 166 132 Q 170 185 167 245 Z" fill="url(#roseStalk)" />
+
+  <!-- Lower leaves -->
+  <g filter="url(#roseShadow)">
+    <path d="M 155 200 C 118 198 80 180 58 204 C 54 224 86 236 122 222 C 142 214 152 206 155 200 Z" fill="#43a047" />
+    <path d="M 155 200 Q 108 208 66 206" stroke="#a5d6a7" stroke-width="2" fill="none" opacity="0.8" />
+    <path d="M 165 190 C 202 188 240 170 262 194 C 266 214 234 226 198 212 C 178 204 168 196 165 190 Z" fill="#4caf50" />
+    <path d="M 165 190 Q 212 198 254 196" stroke="#a5d6a7" stroke-width="2" fill="none" opacity="0.8" />
+  </g>
+
+  <!-- Rose head container -->
+  <g transform="translate(160, 108)" filter="url(#roseShadow)">
+    <!-- Outer back petals (5 rounded petals) -->
+    <g fill="url(#rosePetalBack)">
+      <path d="M 0 -22 C -26 -22 -40 -4 -30 14 C -18 32 18 32 30 14 C 40 -4 26 -22 0 -22 Z" transform="rotate(0)" />
+      <path d="M 0 -22 C -26 -22 -40 -4 -30 14 C -18 32 18 32 30 14 C 40 -4 26 -22 0 -22 Z" transform="rotate(72)" />
+      <path d="M 0 -22 C -26 -22 -40 -4 -30 14 C -18 32 18 32 30 14 C 40 -4 26 -22 0 -22 Z" transform="rotate(144)" />
+      <path d="M 0 -22 C -26 -22 -40 -4 -30 14 C -18 32 18 32 30 14 C 40 -4 26 -22 0 -22 Z" transform="rotate(216)" />
+      <path d="M 0 -22 C -26 -22 -40 -4 -30 14 C -18 32 18 32 30 14 C 40 -4 26 -22 0 -22 Z" transform="rotate(288)" />
+    </g>
+
+    <!-- Middle petal ring -->
+    <g fill="url(#rosePetalFront)">
+      <path d="M 0 -18 C -20 -18 -30 -2 -22 12 C -13 26 13 26 22 12 C 30 -2 20 -18 0 -18 Z" transform="rotate(36)" />
+      <path d="M 0 -18 C -20 -18 -30 -2 -22 12 C -13 26 13 26 22 12 C 30 -2 20 -18 0 -18 Z" transform="rotate(108)" />
+      <path d="M 0 -18 C -20 -18 -30 -2 -22 12 C -13 26 13 26 22 12 C 30 -2 20 -18 0 -18 Z" transform="rotate(180)" />
+      <path d="M 0 -18 C -20 -18 -30 -2 -22 12 C -13 26 13 26 22 12 C 30 -2 20 -18 0 -18 Z" transform="rotate(252)" />
+      <path d="M 0 -18 C -20 -18 -30 -2 -22 12 C -13 26 13 26 22 12 C 30 -2 20 -18 0 -18 Z" transform="rotate(324)" />
+    </g>
+
+    <!-- Swirled heart of the rose -->
+    <circle cx="0" cy="0" r="26" fill="url(#roseHeart)" />
+    <path d="M -2 -14 C 12 -14 16 -2 6 4 C -2 8 -12 2 -8 -6 C -5 -11 4 -11 6 -4"
+          stroke="#880e4f" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.85" />
+
+    <!-- Kawaii face -->
+    <ellipse cx="-9" cy="-2" rx="3.6" ry="5" fill="#4a1025" />
+    <circle cx="-10.2" cy="-4" r="1.6" fill="#ffffff" />
+    <ellipse cx="9" cy="-2" rx="3.6" ry="5" fill="#4a1025" />
+    <circle cx="7.8" cy="-4" r="1.6" fill="#ffffff" />
+    <path d="M -6 7 Q 0 14 6 7 Z" fill="#ad1457" />
+    <path d="M -4 9 Q 0 12 4 9 Q 0 7 -4 9 Z" fill="#f48fb1" />
+    <path d="M -8 6 Q 0 14 8 6" stroke="#4a1025" stroke-width="1.8" fill="none" stroke-linecap="round" />
+    <ellipse cx="-15" cy="4" rx="3.6" ry="2.4" fill="#f06292" opacity="0.8" />
+    <ellipse cx="15" cy="4" rx="3.6" ry="2.4" fill="#f06292" opacity="0.8" />
+  </g>
+
+  <!-- Green sepals under the bloom -->
+  <g fill="#43a047">
+    <path d="M 150 130 Q 144 142 152 150 Q 156 140 158 132 Z" />
+    <path d="M 170 130 Q 176 142 168 150 Q 164 140 162 132 Z" />
+  </g>
+
+  <!-- A tiny friendly ladybug on a leaf -->
+  <g transform="translate(232, 176)">
+    <ellipse cx="0" cy="0" rx="8" ry="9" fill="#d32f2f" />
+    <path d="M 0 -9 L 0 9" stroke="#212121" stroke-width="1.6" />
+    <circle cx="-3.5" cy="-3" r="1.4" fill="#212121" />
+    <circle cx="3.5" cy="-3" r="1.4" fill="#212121" />
+    <circle cx="-3" cy="3" r="1.3" fill="#212121" />
+    <circle cx="3" cy="3" r="1.3" fill="#212121" />
+    <circle cx="0" cy="-9" r="4" fill="#212121" />
+    <circle cx="-1.5" cy="-10" r="1" fill="#ffffff" />
+    <circle cx="1.5" cy="-10" r="1" fill="#ffffff" />
+  </g>
+
+  <!-- Celebratory sparkles -->
+  <g fill="#f06292">
+    <path d="M 54 50 Q 54 42 57 42 Q 60 42 60 50 Q 60 58 57 58 Q 54 58 54 50 Z" />
+    <path d="M 262 118 Q 262 111 265 111 Q 268 111 268 118 Q 268 125 265 125 Q 262 125 262 118 Z" />
+    <circle cx="48" cy="86" r="3" fill="#f8bbd0" />
+    <circle cx="272" cy="82" r="3.5" fill="#f8bbd0" />
+    <circle cx="160" cy="24" r="4" fill="#f8bbd0" />
+  </g>
+</svg>

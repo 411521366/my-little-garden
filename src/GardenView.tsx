@@ -1,11 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import type { GardenViewProps, GrowthStage } from "./types";
+import type { FlowerId, GardenViewProps, GrowthStage } from "./types";
 
-// SVG illustrations for the 4 growth stages
+// Shared SVG illustrations for the early growth stages (same for all flowers)
 import seedArt from "./assets/plant-seed.svg";
 import sproutArt from "./assets/plant-sprout.svg";
 import buddingArt from "./assets/plant-budding.svg";
-import bloomArt from "./assets/plant-bloom.svg";
+
+// The empty, unplanted plot
+import emptyArt from "./assets/plant-empty.svg";
+
+// Flower-specific bloom illustrations
+import bloomSunflowerArt from "./assets/plant-bloom.svg";
+import bloomRoseArt from "./assets/plant-bloom-rose.svg";
+import bloomTulipArt from "./assets/plant-bloom-tulip.svg";
 
 // Reward and action badge icons
 import wateringCanIcon from "./assets/watering-can.svg";
@@ -13,49 +20,83 @@ import sunBadgeIcon from "./assets/sun-badge.svg";
 import waterDropIcon from "./assets/water-drop.svg";
 import starBadgeIcon from "./assets/star-badge.svg";
 
+// Interactive sound effects synthesizer
+import {
+  isSoundEnabled,
+  playGrowSound,
+  playSunlightSound,
+  playWaterSound,
+  toggleSound,
+} from "./assets/soundEffects";
+
 /**
- * GardenView.tsx — Owned by Antigravity (Taroko) in Version 3.
+ * GardenView.tsx — Owned by Antigravity (Taroko), extended in Version 5.
  *
  * A colorful, animated, and kid-friendly visual garden for children ages 6-10.
  * Purely presentational: reads only from GardenViewProps and delegates actions
  * via the agreed callbacks.
+ *
+ * Version 5 adds a flower journey indicator, an empty (unplanted) plot, a
+ * "plant the next flower" action, and flower-specific bloom artwork.
  */
 
-const STAGE_ART: Record<GrowthStage, string> = {
+/** Early stages share one illustration across all flower species. */
+const SHARED_STAGE_ART: Partial<Record<GrowthStage, string>> = {
   seed: seedArt,
   sprout: sproutArt,
   budding: buddingArt,
-  bloom: bloomArt,
 };
+
+/** Each flower species blooms into its own illustration. */
+const BLOOM_ART: Record<FlowerId, string> = {
+  sunflower: bloomSunflowerArt,
+  rose: bloomRoseArt,
+  tulip: bloomTulipArt,
+};
+
+/** Pick the right artwork for a stage of the current flower. */
+function stageArtFor(stage: GrowthStage, flowerId: FlowerId): string {
+  if (stage === "empty") return emptyArt;
+  if (stage === "bloom") return BLOOM_ART[flowerId];
+  return SHARED_STAGE_ART[stage] ?? seedArt;
+}
 
 export default function GardenView({
   plant,
   stages,
+  flowerProgress,
   waterDrops,
   stars,
+  starMax,
   hasWater,
   hasSun,
   canGrow,
   isFullyGrown,
+  canPlantNext,
+  nextFlowerName,
+  nextFlowerEmoji,
   achievementMessage,
   onWater,
   onSunlight,
   onAdvanceStage,
-  onRestart,
+  onNextFlower,
 }: GardenViewProps) {
-  // Current stage details from props
+  // Current stage details from props. "empty" is not in `stages`, so the
+  // index is -1 until the seed is actually planted.
   const currentStageIndex = stages.findIndex(
     (stageInfo) => stageInfo.stage === plant.stage,
   );
-  const currentStage = stages[currentStageIndex] ?? stages[0];
+  const isPlanted = currentStageIndex >= 0;
+  const currentStage = isPlanted ? stages[currentStageIndex] : null;
 
-  // Visual animation states
+  // Visual animation and sound states
   const [isWateringActive, setIsWateringActive] = useState(false);
   const [isSunlightActive, setIsSunlightActive] = useState(false);
   const [isGrowingActive, setIsGrowingActive] = useState(false);
   const [starBounce, setStarBounce] = useState(false);
+  const [soundOn, setSoundOn] = useState(() => isSoundEnabled());
 
-  // Track previous stage to trigger celebratory growth animations
+  // Track previous stage to trigger celebratory growth animations & sound
   const prevStageRef = useRef<GrowthStage>(plant.stage);
   const prevStarsRef = useRef<number>(stars);
 
@@ -63,6 +104,7 @@ export default function GardenView({
     if (prevStageRef.current !== plant.stage) {
       prevStageRef.current = plant.stage;
       setIsGrowingActive(true);
+      playGrowSound();
       const timer = window.setTimeout(() => {
         setIsGrowingActive(false);
       }, 1600);
@@ -81,6 +123,7 @@ export default function GardenView({
 
   function handleWaterClick() {
     if (hasWater || waterDrops === 0 || isFullyGrown) return;
+    playWaterSound();
     setIsWateringActive(true);
     onWater();
     window.setTimeout(() => {
@@ -90,6 +133,7 @@ export default function GardenView({
 
   function handleSunlightClick() {
     if (hasSun || isFullyGrown) return;
+    playSunlightSound();
     setIsSunlightActive(true);
     onSunlight();
     window.setTimeout(() => {
@@ -99,8 +143,15 @@ export default function GardenView({
 
   function handleGrowClick() {
     if (!canGrow) return;
+    playGrowSound();
     setIsGrowingActive(true);
     onAdvanceStage();
+  }
+
+  function handlePlantNextClick() {
+    if (!canPlantNext) return;
+    playGrowSound();
+    onNextFlower();
   }
 
   // Helpful status messages for accessibility and kids' clarity
@@ -113,8 +164,24 @@ export default function GardenView({
   const sunButtonTitle = hasSun
     ? "Your plant is already soaking in bright sunshine!"
     : isFullyGrown
-      ? "Your sunflower is fully grown!"
+      ? "This flower is fully grown!"
       : "Tap to shine warm sunlight on your plant!";
+
+  const growText = isFullyGrown
+    ? `${plant.emoji} Fully Grown! 🎉`
+    : canGrow
+      ? plant.stage === "empty"
+        ? "✨ Plant the Seed! Tap to Grow →"
+        : "✨ Ready to Grow! Tap to Advance →"
+      : "Care for your plant to grow";
+
+  const growLabel = isFullyGrown
+    ? "Flower is fully grown"
+    : canGrow
+      ? plant.stage === "empty"
+        ? "Plant the seed. Tap to place it in the soil."
+        : "Plant is ready to grow! Tap to advance to next stage"
+      : "Care requirements not yet complete";
 
   return (
     <section className="garden" aria-label="Virtual garden">
@@ -123,12 +190,12 @@ export default function GardenView({
         <div className="garden__title-group">
           <h2 className="garden__title">
             <span className="garden__title-icon" aria-hidden="true">
-              🌻
+              {plant.emoji}
             </span>
             <span>{plant.name}&rsquo;s Garden</span>
           </h2>
           <p className="garden__subtitle">
-            Take care of your sunflower and watch it grow!
+            Take care of {plant.name} and watch it grow!
           </p>
         </div>
 
@@ -158,9 +225,7 @@ export default function GardenView({
             className={`garden__reward-badge garden__reward-badge--star${
               starBounce ? " is-bouncing" : ""
             }`}
-            title={`You have earned ${stars} out of ${
-              stages.length - 1
-            } stars`}
+            title={`You have earned ${stars} out of ${starMax} stars`}
           >
             <img
               src={starBadgeIcon}
@@ -170,13 +235,60 @@ export default function GardenView({
             />
             <div className="garden__reward-text">
               <span className="garden__reward-count">
-                {stars}/{stages.length - 1}
+                {stars}/{starMax}
               </span>
               <span className="garden__reward-name">Stars</span>
             </div>
           </div>
+
+          {/* Sound effects toggle */}
+          <button
+            type="button"
+            className={`garden__sound-btn${soundOn ? " is-on" : " is-muted"}`}
+            onClick={() => setSoundOn(toggleSound())}
+            title={
+              soundOn
+                ? "Sound effects are on. Tap to mute."
+                : "Sound effects are muted. Tap to turn on."
+            }
+            aria-label={soundOn ? "Mute sound effects" : "Turn on sound effects"}
+          >
+            <span aria-hidden="true">{soundOn ? "🔊" : "🔇"}</span>
+            <span className="garden__sound-label">
+              {soundOn ? "Sound" : "Muted"}
+            </span>
+          </button>
         </div>
       </header>
+
+      {/* --- Flower Journey Indicator (all three flowers) --- */}
+      <nav className="garden__journey" aria-label="Your flower journey">
+        {flowerProgress.map((flower) => (
+          <div
+            key={flower.id}
+            className={`garden__journey-card is-${flower.status}`}
+            title={`${flower.name}: ${
+              flower.status === "done"
+                ? "bloomed"
+                : flower.status === "current"
+                  ? "growing now"
+                  : "not started yet"
+            }`}
+          >
+            <span className="garden__journey-emoji" aria-hidden="true">
+              {flower.emoji}
+            </span>
+            <span className="garden__journey-name">{flower.name}</span>
+            <span className="garden__journey-tag">
+              {flower.status === "done"
+                ? "Bloomed ✓"
+                : flower.status === "current"
+                  ? "Growing"
+                  : "Locked"}
+            </span>
+          </div>
+        ))}
+      </nav>
 
       {/* --- Main Garden Plot (Interactive Scenery & Artwork) --- */}
       <div
@@ -251,8 +363,12 @@ export default function GardenView({
         {/* Plant Artwork Frame */}
         <div className="garden__plant-stage-frame">
           <img
-            src={STAGE_ART[plant.stage]}
-            alt={`${plant.name} as a ${currentStage.label}`}
+            src={stageArtFor(plant.stage, plant.flowerId)}
+            alt={
+              isPlanted && currentStage
+                ? `${plant.name} as a ${currentStage.label}`
+                : `An empty plot ready for ${plant.name}'s seed`
+            }
             className={`garden__plant-art${
               isGrowingActive ? " is-growing" : ""
             }`}
@@ -262,10 +378,20 @@ export default function GardenView({
         {/* Stage Name & Kid-Friendly Description Banner */}
         <div className="garden__stage-badge-container">
           <span className="garden__stage-pill">
-            Stage {currentStageIndex + 1} of {stages.length}:{" "}
-            <strong>{currentStage.label}</strong>
+            {isPlanted && currentStage ? (
+              <>
+                Stage {currentStageIndex + 1} of {stages.length}:{" "}
+                <strong>{currentStage.label}</strong>
+              </>
+            ) : (
+              <>🌱 Empty Plot — plant your seed!</>
+            )}
           </span>
-          <p className="garden__stage-desc">{currentStage.description}</p>
+          <p className="garden__stage-desc">
+            {isPlanted && currentStage
+              ? currentStage.description
+              : "A patch of soft, empty soil waits for a seed. Give it water and sunlight to plant it!"}
+          </p>
         </div>
       </div>
 
@@ -346,31 +472,32 @@ export default function GardenView({
         </div>
       </div>
 
-      {/* --- Grow Action Button with Visual Checklist --- */}
+      {/* --- Grow Action / Plant-Next Button with Visual Checklist --- */}
       <div className="garden__grow-station">
-        <button
-          type="button"
-          className={`garden__grow-btn${canGrow ? " is-ready" : ""}${
-            isFullyGrown ? " is-completed" : ""
-          }`}
-          onClick={handleGrowClick}
-          disabled={!canGrow}
-          aria-label={
-            isFullyGrown
-              ? "Sunflower is fully grown"
-              : canGrow
-                ? "Plant is ready to grow! Tap to advance to next stage"
-                : "Care requirements not yet complete"
-          }
-        >
-          <span className="garden__grow-btn-text">
-            {isFullyGrown
-              ? "🌻 Fully Grown Sunflower! 🎉"
-              : canGrow
-                ? "✨ Ready to Grow! Tap to Advance →"
-                : "Care for your plant to grow"}
-          </span>
-        </button>
+        {canPlantNext ? (
+          <button
+            type="button"
+            className="garden__grow-btn is-ready"
+            onClick={handlePlantNextClick}
+            aria-label={`Plant the next flower: ${nextFlowerName}`}
+          >
+            <span className="garden__grow-btn-text">
+              🌱 Plant {nextFlowerName} {nextFlowerEmoji} →
+            </span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            className={`garden__grow-btn${canGrow ? " is-ready" : ""}${
+              isFullyGrown ? " is-completed" : ""
+            }`}
+            onClick={handleGrowClick}
+            disabled={!canGrow}
+            aria-label={growLabel}
+          >
+            <span className="garden__grow-btn-text">{growText}</span>
+          </button>
+        )}
 
         {/* Clear Requirements Checklist (Not relying on color alone) */}
         {!isFullyGrown && (
@@ -378,9 +505,7 @@ export default function GardenView({
             className="garden__requirements"
             aria-label="Growth requirements checklist"
           >
-            <div
-              className={`garden__req-item${hasWater ? " is-met" : ""}`}
-            >
+            <div className={`garden__req-item${hasWater ? " is-met" : ""}`}>
               <span className="garden__req-status" aria-hidden="true">
                 {hasWater ? "✅" : "⭕"}
               </span>
@@ -420,7 +545,7 @@ export default function GardenView({
               >
                 <div className="garden__stage-thumb-wrap">
                   <img
-                    src={STAGE_ART[stageInfo.stage]}
+                    src={stageArtFor(stageInfo.stage, plant.flowerId)}
                     alt=""
                     className="garden__stage-thumb"
                     aria-hidden="true"
@@ -453,18 +578,6 @@ export default function GardenView({
             );
           })}
         </ol>
-      </div>
-
-      {/* --- Restart Option --- */}
-      <div className="garden__footer-actions">
-        <button
-          type="button"
-          className="button button--ghost garden__restart"
-          onClick={onRestart}
-          aria-label="Restart garden from a new seed"
-        >
-          🔄 Start a new seed
-        </button>
       </div>
     </section>
   );

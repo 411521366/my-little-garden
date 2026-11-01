@@ -1,5 +1,5 @@
-import type { GameProgress } from "./types";
-import { GROWTH_STAGES } from "./types";
+import type { FlowerProgress, GameProgress } from "./types";
+import { FLOWER_IDS, GROWTH_STAGES } from "./types";
 
 /**
  * storage.ts — Owned by OpenCode.
@@ -7,10 +7,31 @@ import { GROWTH_STAGES } from "./types";
  * Saves and restores game progress with localStorage. Every load is validated
  * so corrupted or outdated save data can never crash the game — if anything
  * looks wrong, we simply start fresh.
+ *
+ * Version 5 stores progress for all three flowers, so the save format changed
+ * and the storage key was bumped. Old (single-flower) saves are ignored.
  */
 
 /** The key used to store the save data in the browser. */
-const STORAGE_KEY = "my-little-garden:save-v1";
+const STORAGE_KEY = "my-little-garden:save-v2";
+
+/** Check that unknown data really looks like one flower's progress. */
+function isValidFlowerProgress(data: unknown): data is FlowerProgress {
+  if (typeof data !== "object" || data === null) return false;
+  const f = data as Record<string, unknown>;
+
+  const flowerIdOk =
+    typeof f.flowerId === "string" && FLOWER_IDS.includes(f.flowerId as never);
+  const stageOk =
+    typeof f.stage === "string" && GROWTH_STAGES.includes(f.stage as never);
+
+  return (
+    flowerIdOk &&
+    stageOk &&
+    typeof f.hasWater === "boolean" &&
+    typeof f.hasSun === "boolean"
+  );
+}
 
 /**
  * Check that unknown data really looks like a valid GameProgress.
@@ -20,28 +41,26 @@ function isValidProgress(data: unknown): data is GameProgress {
   if (typeof data !== "object" || data === null) return false;
   const d = data as Record<string, unknown>;
 
-  const stageOk =
-    typeof d.stage === "string" && GROWTH_STAGES.includes(d.stage as never);
+  const indexOk =
+    typeof d.activeFlowerIndex === "number" &&
+    Number.isInteger(d.activeFlowerIndex) &&
+    d.activeFlowerIndex >= 0 &&
+    d.activeFlowerIndex < FLOWER_IDS.length;
+  const flowersOk =
+    Array.isArray(d.flowers) &&
+    d.flowers.length === FLOWER_IDS.length &&
+    d.flowers.every(isValidFlowerProgress);
   const waterDropsOk =
     typeof d.waterDrops === "number" &&
     Number.isInteger(d.waterDrops) &&
     d.waterDrops >= 0;
   const starsOk =
     typeof d.stars === "number" && Number.isInteger(d.stars) && d.stars >= 0;
-  const hasWaterOk = typeof d.hasWater === "boolean";
-  const hasSunOk = typeof d.hasSun === "boolean";
   const answeredOk =
     Array.isArray(d.answeredQuestionIds) &&
     d.answeredQuestionIds.every((id) => typeof id === "string");
 
-  return (
-    stageOk &&
-    waterDropsOk &&
-    starsOk &&
-    hasWaterOk &&
-    hasSunOk &&
-    answeredOk
-  );
+  return indexOk && flowersOk && waterDropsOk && starsOk && answeredOk;
 }
 
 /**

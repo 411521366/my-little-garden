@@ -9,16 +9,27 @@
  * the project without stepping on each other's code.
  */
 
-/** The four growth stages a plant moves through. */
-export type GrowthStage = "seed" | "sprout" | "budding" | "bloom";
+/**
+ * The rungs of the growth ladder. "empty" is the unplanted plot you start
+ * with; the four real flower milestones (seed → sprout → budding → bloom)
+ * follow it. This means growing one flower needs 4 waterings (4 water drops).
+ */
+export type GrowthStage = "empty" | "seed" | "sprout" | "budding" | "bloom";
 
-/** All growth stages in the order the plant grows. Single source of truth. */
+/** The full growth ladder in order. Single source of truth for transitions. */
 export const GROWTH_STAGES: GrowthStage[] = [
+  "empty",
   "seed",
   "sprout",
   "budding",
   "bloom",
 ];
+
+/** The three flower species the child grows, one at a time. */
+export type FlowerId = "sunflower" | "rose" | "tulip";
+
+/** All flower ids in the order they are grown. */
+export const FLOWER_IDS: FlowerId[] = ["sunflower", "rose", "tulip"];
 
 /** Describes one growth stage so the view can label and explain it. */
 export interface StageInfo {
@@ -30,14 +41,55 @@ export interface StageInfo {
   description: string;
 }
 
-/** The current state of a plant, produced by game logic. */
-export interface PlantState {
-  /** Stable identifier for this plant (used later for saving progress). */
-  id: string;
-  /** The plant's display name. */
+/** Static facts about one flower species. */
+export interface FlowerInfo {
+  /** Which species this describes. */
+  id: FlowerId;
+  /** Pet name shown in the garden (for example, "Sunny"). */
   name: string;
+  /** Common name of the species (for example, "Sunflower"). */
+  species: string;
+  /** Emoji used as a lightweight icon for the flower. */
+  emoji: string;
+  /** A few real, fun facts about this flower for the child to discover. */
+  funFacts: string[];
+  /** The four milestones (seed → bloom) with flower-specific descriptions. */
+  stages: StageInfo[];
+}
+
+/** The current state of the actively grown plant. */
+export interface PlantState {
+  /** Stable identifier for this plant. */
+  id: string;
+  /** The plant's display (pet) name. */
+  name: string;
+  /** Emoji icon for the plant. */
+  emoji: string;
+  /** Which species is being grown. */
+  flowerId: FlowerId;
   /** Which growth stage the plant is in right now. */
   stage: GrowthStage;
+}
+
+/** Saved progress for a single flower. */
+export interface FlowerProgress {
+  /** Which species this progress belongs to. */
+  flowerId: FlowerId;
+  /** The flower's current growth stage. */
+  stage: GrowthStage;
+  /** Whether the "water" care action is done for the current stage. */
+  hasWater: boolean;
+  /** Whether the "sunlight" care action is done for the current stage. */
+  hasSun: boolean;
+}
+
+/** One flower's status for the "journey" display in the garden. */
+export interface FlowerStatus {
+  id: FlowerId;
+  name: string;
+  emoji: string;
+  /** "done" = bloomed, "current" = being grown, "locked" = not started yet. */
+  status: "done" | "current" | "locked";
 }
 
 /**
@@ -45,16 +97,14 @@ export interface PlantState {
  * restored after a page refresh.
  */
 export interface GameProgress {
-  /** The plant's current growth stage. */
-  stage: GrowthStage;
+  /** Index (0-2) of the flower currently being grown. */
+  activeFlowerIndex: number;
+  /** Progress for each of the three flowers. */
+  flowers: FlowerProgress[];
   /** Unspent water drops earned by answering quiz questions. */
   waterDrops: number;
-  /** Stars earned for each completed growth transition (max 3). */
+  /** Stars earned across all flowers (one per growth transition, max 12). */
   stars: number;
-  /** Whether the "water" care action is done for the current stage. */
-  hasWater: boolean;
-  /** Whether the "sunlight" care action is done for the current stage. */
-  hasSun: boolean;
   /** Question ids that already gave a water drop (prevents repeat rewards). */
   answeredQuestionIds: string[];
 }
@@ -68,22 +118,32 @@ export interface GameProgress {
  * not reach into game logic directly.
  */
 export interface GardenViewProps {
-  /** The plant to display. */
+  /** The actively grown plant to display. */
   plant: PlantState;
-  /** All four growth stages, in order, for the progress display. */
+  /** The four milestones (seed → bloom) for the progress display. */
   stages: StageInfo[];
+  /** Status of all three flowers for the journey indicator. */
+  flowerProgress: FlowerStatus[];
   /** Unspent water drops the player can spend on watering. */
   waterDrops: number;
   /** Stars earned so far (one per growth transition). */
   stars: number;
+  /** The most stars possible (3 flowers × 4 transitions = 12). */
+  starMax: number;
   /** True when the "water" action is already done this stage. */
   hasWater: boolean;
   /** True when the "sunlight" action is already done this stage. */
   hasSun: boolean;
   /** True when both care actions are done and the plant can grow. */
   canGrow: boolean;
-  /** True once the plant has reached its final stage (no more growing). */
+  /** True once the active flower has reached its final stage (bloom). */
   isFullyGrown: boolean;
+  /** True when the active flower bloomed AND another flower is waiting. */
+  canPlantNext: boolean;
+  /** Name of the next flower to plant, or null when none is waiting. */
+  nextFlowerName: string | null;
+  /** Emoji of the next flower to plant, or null when none is waiting. */
+  nextFlowerEmoji: string | null;
   /** An encouraging message to show the player, or null for none. */
   achievementMessage: string | null;
   /** Callback when the player taps "Water". */
@@ -92,6 +152,8 @@ export interface GardenViewProps {
   onSunlight: () => void;
   /** Callback when the player taps "Grow" (only valid when canGrow). */
   onAdvanceStage: () => void;
+  /** Callback when the player plants the next flower (only when canPlantNext). */
+  onNextFlower: () => void;
   /** Callback when the player chooses to restart the garden. */
   onRestart: () => void;
 }
@@ -100,6 +162,8 @@ export interface GardenViewProps {
 export interface QuizQuestion {
   /** Stable id used to track which questions already gave a reward. */
   id: string;
+  /** Which quiz stage this belongs to (1-3; each stage has 4 questions). */
+  stage: 1 | 2 | 3;
   /** The question text shown to the child. */
   question: string;
   /** Exactly three answer choices. */

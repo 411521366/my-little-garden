@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" aria-label="A cheerful purple tulip with a cup-shaped bloom, a friendly smile, and long green leaves">
+  <defs>
+    <radialGradient id="tulipSky" cx="50%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#f3e5f5" />
+      <stop offset="45%" stop-color="#e1f5fe" />
+      <stop offset="100%" stop-color="#c8e6c9" />
+    </radialGradient>
+    <linearGradient id="tulipStalk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2e7d32" />
+      <stop offset="50%" stop-color="#4caf50" />
+      <stop offset="100%" stop-color="#1b5e20" />
+    </linearGradient>
+    <linearGradient id="tulipPetal" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#6a1b9a" />
+      <stop offset="45%" stop-color="#8e24aa" />
+      <stop offset="100%" stop-color="#ce93d8" />
+    </linearGradient>
+    <linearGradient id="tulipPetalSide" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#7b1fa2" />
+      <stop offset="60%" stop-color="#ab47bc" />
+      <stop offset="100%" stop-color="#e1bee7" />
+    </linearGradient>
+    <linearGradient id="tulipSoil" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#795548" />
+      <stop offset="40%" stop-color="#5d4037" />
+      <stop offset="100%" stop-color="#3e2723" />
+    </linearGradient>
+    <filter id="tulipShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#4a148c" flood-opacity="0.28" />
+    </filter>
+  </defs>
+
+  <!-- Sky background -->
+  <rect width="320" height="320" rx="28" fill="url(#tulipSky)" />
+
+  <!-- Soil section -->
+  <path d="M 0 244 Q 80 236 160 240 T 320 238 L 320 320 L 0 320 Z" fill="url(#tulipSoil)" />
+  <path d="M 0 244 Q 80 236 160 240 T 320 238 L 320 252 Q 240 246 160 249 T 0 252 Z" fill="#81c784" opacity="0.95" />
+
+  <!-- Soil pebbles -->
+  <circle cx="80" cy="280" r="5" fill="#a1887f" opacity="0.6" />
+  <circle cx="240" cy="276" r="6" fill="#8d6e63" opacity="0.6" />
+  <circle cx="150" cy="298" r="5" fill="#a1887f" opacity="0.7" />
+
+  <!-- Underground roots -->
+  <g stroke="#c8e6c9" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M 160 249 Q 158 278 160 314" />
+    <path d="M 160 258 Q 132 272 118 294" stroke-width="2.5" />
+    <path d="M 160 262 Q 188 276 206 300" stroke-width="2.5" />
+  </g>
+
+  <!-- Tall straight stem -->
+  <path d="M 155 249 Q 156 180 158 130 L 164 130 Q 166 180 165 249 Z" fill="url(#tulipStalk)" />
+
+  <!-- Long, ribbon-like tulip leaves -->
+  <g filter="url(#tulipShadow)">
+    <path d="M 156 245 C 120 220 100 160 108 120 C 128 150 142 200 158 238 Z" fill="#43a047" />
+    <path d="M 150 236 Q 118 190 112 132" stroke="#a5d6a7" stroke-width="2" fill="none" opacity="0.7" />
+    <path d="M 164 245 C 200 220 220 160 212 120 C 192 150 178 200 162 238 Z" fill="#4caf50" />
+    <path d="M 170 236 Q 202 190 208 132" stroke="#a5d6a7" stroke-width="2" fill="none" opacity="0.7" />
+  </g>
+
+  <!-- Tulip bloom (cup shape) -->
+  <g transform="translate(160, 104)" filter="url(#tulipShadow)">
+    <!-- Back centre petal (tallest) -->
+    <path d="M 0 -46 C -16 -46 -22 -20 -20 4 C -18 22 -8 30 0 30 C 8 30 18 22 20 4 C 22 -20 16 -46 0 -46 Z" fill="url(#tulipPetal)" />
+
+    <!-- Left side petal curving in -->
+    <path d="M -2 -40 C -26 -40 -38 -16 -34 8 C -31 26 -16 32 -2 30 C -10 18 -12 -12 -2 -40 Z" fill="url(#tulipPetalSide)" />
+    <!-- Right side petal curving in -->
+    <path d="M 2 -40 C 26 -40 38 -16 34 8 C 31 26 16 32 2 30 C 10 18 12 -12 2 -40 Z" fill="url(#tulipPetalSide)" />
+
+    <!-- Petal tip notches for a soft tulip silhouette -->
+    <path d="M -20 4 Q -12 -4 -2 2" stroke="#6a1b9a" stroke-width="2" fill="none" opacity="0.5" />
+    <path d="M 2 2 Q 12 -4 20 4" stroke="#6a1b9a" stroke-width="2" fill="none" opacity="0.5" />
+
+    <!-- Kawaii face on the bloom -->
+    <ellipse cx="-9" cy="2" rx="3.6" ry="5" fill="#38006b" />
+    <circle cx="-10.2" cy="0" r="1.6" fill="#ffffff" />
+    <ellipse cx="9" cy="2" rx="3.6" ry="5" fill="#38006b" />
+    <circle cx="7.8" cy="0" r="1.6" fill="#ffffff" />
+    <path d="M -6 11 Q 0 17 6 11 Z" fill="#7b1fa2" />
+    <path d="M -4 13 Q 0 15 4 13 Q 0 11 -4 13 Z" fill="#e1bee7" />
+    <path d="M -8 10 Q 0 17 8 10" stroke="#38006b" stroke-width="1.8" fill="none" stroke-linecap="round" />
+    <ellipse cx="-15" cy="8" rx="3.6" ry="2.4" fill="#ce93d8" opacity="0.8" />
+    <ellipse cx="15" cy="8" rx="3.6" ry="2.4" fill="#ce93d8" opacity="0.8" />
+  </g>
+
+  <!-- A little butterfly fluttering nearby -->
+  <g transform="translate(240, 78) rotate(12)">
+    <path d="M 0 0 C -12 -14 -22 -8 -18 4 C -15 13 -4 8 0 0 Z" fill="#ce93d8" />
+    <path d="M 0 0 C 12 -14 22 -8 18 4 C 15 13 4 8 0 0 Z" fill="#f8bbd0" />
+    <path d="M 0 -2 L 0 8" stroke="#4a148c" stroke-width="2" stroke-linecap="round" />
+    <circle cx="-12" cy="-2" r="1.4" fill="#ffffff" opacity="0.8" />
+    <circle cx="12" cy="-2" r="1.4" fill="#ffffff" opacity="0.8" />
+  </g>
+
+  <!-- Celebratory sparkles -->
+  <g fill="#ab47bc">
+    <path d="M 58 46 Q 58 39 61 39 Q 64 39 64 46 Q 64 53 61 53 Q 58 53 58 46 Z" />
+    <path d="M 258 132 Q 258 125 261 125 Q 264 125 264 132 Q 264 139 261 139 Q 258 139 258 132 Z" />
+    <circle cx="50" cy="90" r="3" fill="#e1bee7" />
+    <circle cx="276" cy="86" r="3.5" fill="#e1bee7" />
+    <circle cx="160" cy="24" r="4" fill="#e1bee7" />
+  </g>
+</svg>

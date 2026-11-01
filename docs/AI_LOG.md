@@ -319,3 +319,123 @@ Full details are in [`TESTING.md`](./TESTING.md). Summary:
 - Mobile layout not visually verified at a real device width (code inspection
   only) — noted in `TESTING.md`.
 
+---
+
+## Version 5 — Three Flowers, Randomized Quiz & Fun Facts
+
+**Agent:** OpenCode (lead developer)
+**Goal:** Add two more flower species, randomize the quiz's correct-answer
+position, expand the quiz to 12 questions grouped into 3 stages, add per-flower
+fun facts, and rebalance the water economy so the child earns exactly 12 drops
+to grow all three flowers.
+
+### What OpenCode did
+
+1. **Extended the shared contract (`src/types.ts`)**
+   - Added `"empty"` to `GrowthStage` and `GROWTH_STAGES`, so the growth
+     ladder is now `empty → seed → sprout → budding → bloom`. The "empty" plot
+     is the unplanted starting state; each of the 4 real rungs costs one
+     watering (1 water drop), giving 4 drops per flower × 3 flowers = 12.
+   - Added `FlowerId` (`sunflower | rose | tulip`) and `FLOWER_IDS`.
+   - Added `FlowerInfo` (id, name, species, emoji, funFacts, stages),
+     `FlowerProgress` (per-flower stage + care flags), and `FlowerStatus`
+     (for the journey indicator).
+   - Extended `PlantState` with `emoji` and `flowerId`; reworked
+     `GameProgress` to hold `activeFlowerIndex` plus a `flowers` array.
+   - Extended `GardenViewProps` with `flowerProgress`, `starMax`,
+     `canPlantNext`, `nextFlowerName`, `nextFlowerEmoji`, `onNextFlower`.
+   - Added `stage: 1 | 2 | 3` to `QuizQuestion`.
+
+2. **New flower data (`src/flowerData.ts`)** — the three species (Sunny the
+   Sunflower, Rosie the Rose, Tilly the Tulip), each with an emoji, four real
+   fun facts, and four milestone descriptions with a flower-specific bloom line.
+
+3. **Quiz (`src/quizData.ts`, `src/QuizPanel.tsx`)**
+   - Expanded 10 → 12 questions (added "Which flower follows the sun?" and
+     "After a bee visits, what can a flower make?").
+   - Grouped them into 3 stages of 4: Plant Basics, Growing, Flowers & Seeds.
+     The panel shows "Stage X of 3 · Question Y of 4".
+   - **Randomized the correct answer** with a Fisher–Yates shuffle computed
+     once per question (`useMemo`), so the right choice sits in a random slot
+     and the layout stays stable while answering. The reward still keys off
+     `question.id`, so shuffling never double-pays a drop.
+
+4. **Multi-flower game logic (`src/App.tsx`)**
+   - Flowers are grown **one at a time** (sunflower → rose → tulip). Each
+     starts as an "empty" plot; the first watering + sunlight plants the seed,
+     and three more care cycles bring it to bloom (4 drops per flower).
+   - A "Plant {next}" button appears when a flower blooms (before the last);
+     it advances `activeFlowerIndex` and keeps drops/stars/answers. Reaching
+     the **last** flower's bloom shows the congratulations screen.
+   - Stars count every growth transition across all flowers (max 12 = 3 × 4),
+     shown as "n/12". A `flowerProgress` array drives the journey indicator,
+     and the fun-facts card switches to the active flower.
+
+5. **Garden view & screen layout (`src/GardenView.tsx`, `src/App.tsx`, `src/garden.css`)** — extended
+   Antigravity's design (structure, classes, and animations preserved): a
+   3-card flower-journey indicator, an empty-plot state, the plant-next button,
+   and a per-flower fun-facts card, with matching pastel styles. Reordered the
+   screen layout so the Plant Quiz appears immediately below the Growth Stages;
+   paired the Flower Fun Facts and "What plants really need" side-by-side in a
+   responsive 2-column grid (`.garden__info-columns`) to conserve vertical space;
+   and placed the "Start a new garden" button at the very end of the screen.
+
+6. **New artwork (`src/assets/`)** — `plant-empty.svg` (soil with a cozy seed
+   hole and a hopeful hovering seed), `plant-bloom-rose.svg` (layered rose with
+   a kawaii face and ladybug), and `plant-bloom-tulip.svg` (cup-shaped tulip
+   with a butterfly), all in the existing 320×320 gradient style. Early stages
+   (seed/sprout/budding) are shared across species; only the bloom differs.
+
+7. **Saving (`src/storage.ts`)** — the save shape now stores all three flowers;
+   the key was bumped to `my-little-garden:save-v2` so old single-flower saves
+   are ignored. Validation checks `activeFlowerIndex`, the three `flowers`
+   entries, drops, stars, and answered ids.
+
+8. **Interactive sound effects synthesizer (`src/assets/soundEffects.ts`)** —
+   built an offline, zero-dependency Web Audio API synthesizer generating real-time,
+   kid-friendly audio cues: bubbly water drops & splash for watering (`playWaterSound`),
+   warm golden shimmer chords for sunlight (`playSunlightSound`), triumphant ascending
+   harp chime flourish for plant growth (`playGrowSound`), joyful victory bell chime
+   for correct quiz answers (`playCorrectSound`), and an encouraging tap for quiz retries
+   (`playRetrySound`). Added an accessible sound toggle button (`🔊 Sound` / `🔇 Muted`)
+   in the garden header with saved preferences.
+
+### Testing performed (live in the browser + `npm run build`)
+
+- **`npm run build`** — ✅ passed (0 TS errors, 50 modules).
+- **Randomization** — ✅ correct answer observed at index 1 on one load and
+  index 2 on another (never fixed to the first slot).
+- **12-drop economy** — ✅ 4 correct answers → 4 drops; each water consumed
+  exactly 1; a full flower took 4 drops; final congrats showed "12 ⭐ and 12
+  quiz questions".
+- **Growth & stars** — ✅ empty→seed→sprout→budding→bloom with stars
+  1/12→2/12→3/12→4/12.
+- **Flower transition** — ✅ "Plant Rosie 🌹" advanced to the rose, preserved
+  drops/stars, kept the sunflower at `bloom`, switched fun facts to Rosie, and
+  updated the journey (Sunny=Bloomed, Rosie=Growing).
+- **Completion** — ✅ last flower's bloom opened the congrats screen; "See my
+  garden" showed all three bloomed at 12/12 stars.
+- **Save/restore & restart** — ✅ injected saves reloaded correctly; restart
+  returned to welcome and cleared the save.
+- **Console** — ✅ 0 warnings, 0 real errors (only Vite dev-server SVG
+  module-preload notices, which don't occur in the production build).
+
+### Design decisions
+
+- **"Empty" is a rung, not a milestone.** `GROWTH_STAGES` includes `empty` so
+  planting is a real transition, but the 4-milestone progress strip and the
+  "Stage N of 4" label still present the flower as four stages.
+- **Pooled drops, sequential flowers.** All 12 quiz questions are always
+  available and drops are pooled; only the *flower* being grown is sequential.
+  This keeps the quiz frustration-free while still requiring 12 drops to finish.
+- **Shuffle once per question** (`useMemo`) so the correct answer doesn't move
+  mid-question, and rewards stay tied to the stable `question.id`.
+
+### Remaining limitations (Version 5)
+
+- The early stages (seed/sprout/budding) are shared across the three species;
+  only the bloom art differs (a scope choice — Antigravity can specialize them
+  later).
+- Still no audio, English-only, per-browser saves; mobile layout verified by
+  CSS inspection only (browser tooling can't resize the viewport).
+

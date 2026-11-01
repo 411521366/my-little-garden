@@ -19,6 +19,7 @@ parallel without conflicting.
 - `src/types.ts` — the shared TypeScript contract
 - `src/QuizPanel.tsx` — the quiz component
 - `src/quizData.ts` — the quiz questions
+- `src/flowerData.ts` — the three flower species (names, emoji, fun facts, per-flower stages) *(added in Version 5)*
 - `src/storage.ts` — localStorage save/load logic
 - `src/main.tsx` — React entry point
 - `src/index.css` — global theme and base styles
@@ -82,6 +83,9 @@ Game logic decides which stage the plant is in. The view only displays it.
   artwork and animations.
 - **Version 4 (done)** — final integration, bug fixing, accessibility
   polish, testing, and documentation (OpenCode).
+- **Version 5 (done)** — three flowers grown one at a time, randomized quiz
+  answers, 12 questions in 3 stages, per-flower fun facts, and a 12-drop
+  economy (OpenCode, preserving Antigravity's garden design).
 
 ## Conventions
 
